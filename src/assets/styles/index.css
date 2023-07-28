@@ -12,7 +12,7 @@
 }
 ::selection {
   background: #E42113;
-  color: #F1F1F1;
+  color: #FFF;
 }
 
 * {
@@ -27,7 +27,7 @@ html {
 }
 
 body {
-  background: #F1F1F1;
+  background: #FFF;
   position: relative;
 }
 

@@ -2,9 +2,9 @@ import React from 'react';
 
 const App = () => {
     return (
-        <main>
+        <div>
             <h1>Webflix</h1>
-        </main>
+        </div>
     );
 };
 

@@ -1,39 +1,37 @@
 // polices //
 @font-face {
-  font-family: "Bold";
-  src: url(../fonts/Poppins-Bold.ttf);
-}
-@font-face {
-  font-family: "Light";
-  src: url(../fonts/Poppins-ExtraLight.ttf);
+  font-family: "Medium";
+  src: url(../fonts/Poppins-Medium.ttf);
 }
 @font-face {
   font-family: "Regular";
   src: url(../fonts/Poppins-Regular.ttf);
 }
+@font-face {
+  font-family: "Light";
+  src: url(../fonts/Poppins-Light.ttf);
+}
 
 // variables //
-$regularfont: "regular", sans-serif;
-$boldfont: "Bold", sans-serif;
-$lightfont: "Light", sans-serif;
+$bold-font: "Medium", sans-serif;
+$regular-font: "Regular", sans-serif;
+$light-font: "Light", sans-serif;
 
 $primary-color: #E42113;
-$secondary-color: #937043;
-$yellow: #FFBF00;
 $black: #131313;
 $white: #F1F1F1;
 
 // code général //
 ::selection {
-  background: $green;
-  color: white;
+  background: $primary-color;
+  color: $white;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: $regularfont;
+  font-family: $regular-font;
 }
 
 html {
@@ -41,7 +39,7 @@ html {
 }
 
 body {
-  background: #F1F1F1;
+  background: $white;
   position: relative;
 }
 

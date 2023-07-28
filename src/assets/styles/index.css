@@ -1,18 +1,39 @@
-/* Error: Undefined variable.
- *    ,
- * 28 |   background: $green;
- *    |               ^^^^^^
- *    '
- *   _settings.scss 28:15  @import
- *   index.scss 2:9        root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Undefined variable.\a    \2577 \a 28 \2502    background: $green;\a    \2502                ^^^^^^\a    \2575 \a   _settings.scss 28:15  @import\a   index.scss 2:9        root stylesheet";
+@font-face {
+  font-family: "Medium";
+  src: url(../fonts/Poppins-Medium.ttf);
 }
+@font-face {
+  font-family: "Regular";
+  src: url(../fonts/Poppins-Regular.ttf);
+}
+@font-face {
+  font-family: "Light";
+  src: url(../fonts/Poppins-Light.ttf);
+}
+::selection {
+  background: #E42113;
+  color: #F1F1F1;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Regular", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #F1F1F1;
+  position: relative;
+}
+
+main {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/*# sourceMappingURL=index.css.map */

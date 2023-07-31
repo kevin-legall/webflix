@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import movies from "../layouts/Movies";
-import MovieComponent from "./Movie";
-import Movies from "../layouts/Movies";
+import MovieComponent from "./MovieComponent";
+import {Genre} from "./FetchGenres";
 
 export interface Movie {
     id:number;
-    title:string;
     original_title:string;
+    poster_path:string;
+    genres_ids:number;
+    overview:string;
+    vote_average:number;
+    vote_count:number;
 }
 
 const FetchMovies = () => {
@@ -15,6 +18,8 @@ const FetchMovies = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
+        // search bar 'https://api.themoviedb.org/3/search/movie?query=flash'
+        // sort by average 'https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc'
         axios.get("https://api.themoviedb.org/3/movie/popular", options)
             .then((response) =>  setData(response.data.results))
             .catch(err => console.error(err));

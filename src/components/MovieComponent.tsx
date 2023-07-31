@@ -1,11 +1,16 @@
 import React from 'react';
 import {Movie} from "./FetchMovies";
-import FetchGenres, {Genre} from "./FetchGenres";
 
 type Prop = {
     movie: Movie
+    genres: Genre[];
 }
-const MovieComponent = ({movie}: Prop) => {
+const MovieComponent = ({ movie, genres }: Prop) => {
+
+    const getCategoryById = (categoryId: number): string => {
+        const category = genres.find((genre: Genre) => genre.id === categoryId);
+        return category ? category.name : 'Catégorie inconnue';
+    };
 
     return (
         <li>
@@ -13,7 +18,12 @@ const MovieComponent = ({movie}: Prop) => {
             <h3>{movie.original_title}</h3>
             <p>{movie.overview}</p>
             <p>{movie.vote_average}/10 ({movie.vote_count} votes)</p>
-            <p>{movie.genres_ids}</p>
+            <ul>
+                {movie.genres_ids.map((genres_id) => (
+                    <li>
+                    </li>
+                ))};
+            </ul>
         </li>
     );
 };

@@ -4,12 +4,15 @@ import FetchMovies, {Movie} from "../components/FetchMovies";
 import {Genre} from "../components/FetchGenres";
 
 const Home = () => {
+
+
+
     return (
-        <main>
+        <React.Fragment>
             <Navbar />
             <h1>Home</h1>
             <FetchMovies />
-        </main>
+        </React.Fragment>
     );
 };
 

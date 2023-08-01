@@ -1,37 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import MovieComponent from "./MovieComponent";
-
-export interface Movie {
-    id:number;
-    original_title:string;
-    poster_path:string;
-    genres_ids:number[];
-    overview:string;
-    vote_average:number;
-    vote_count:number;
-}
+import { Movie } from "../models/Movie";
+import { Genre } from "../models/Genre";
 
 const FetchMovies = () => {
 
-    const [data, setData] = useState([]);
-    const [genres, setGenres] = useState([]);
+    const [movies, setMovies] = useState<Movie[]>([]);
+    const [genres, setGenres] = useState<Genre[]>([]);
 
     useEffect(() => {
-        const fetchMovies = async () => {
-            // search bar 'https://api.themoviedb.org/3/search/movie?query=flash'
-            // sort by average 'https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc'
-            axios.get("https://api.themoviedb.org/3/movie/popular", options)
-                .then((response) =>  setData(response.data.results))
-                .catch(err => console.error(err));
-        };
-
-        const fetchCategories = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get("https://api.themoviedb.org/3/genre/movie/list", options);
-                setGenres(response.data.genres); // Stocker les genres dans l'état
+                const [moviesResponse, genresResponse] = await Promise.all([
+                    axios.get('https://api.themoviedb.org/3/movie/popular', options),
+                    axios.get('https://api.themoviedb.org/3/genre/movie/list', options),
+                ]);
+
+                setMovies(moviesResponse.data.results);
+                setGenres(genresResponse.data.genres);
             } catch (error) {
-                console.error('Erreur Fetch : ', error);
+                console.error('Erreur lors de la récupération des données :', error);
             }
         };
 
@@ -43,16 +32,27 @@ const FetchMovies = () => {
             }
         };
 
-        fetchMovies();
-        fetchCategories();
-    }, []);
+        fetchData();
+
+        if (movies.length > 0 && genres.length > 0) {
+            genres.forEach((genre) => {
+                movies.filter((movie) => {
+                    if (movie.genres_ids?.includes(genre.id)) {
+                        console.log("BRAVOOOOOOO")
+                        movie.genres.push(genre);
+                    }
+                    return null;
+                });
+            });
+        }
+    }, [movies, genres]);
 
     return (
         <div>
             <ul>
                 {
-                    data.map((movie:Movie)=> (
-                        <MovieComponent key={movie.id} movie={movie} genres={genres}/>
+                    movies.map((movie: Movie) => (
+                        <MovieComponent key={movie.id} movie={movie} />
                     ))
                 }
             </ul>

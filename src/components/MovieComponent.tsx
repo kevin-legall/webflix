@@ -1,16 +1,11 @@
 import React from 'react';
-import {Movie} from "./FetchMovies";
+import { Movie } from "../models/Movie";
+import GenreComponent from "./GenreComponent";
 
-type Prop = {
-    movie: Movie
-    genres: Genre[];
+type Props = {
+    movie: Movie;
 }
-const MovieComponent = ({ movie, genres }: Prop) => {
-
-    const getCategoryById = (categoryId: number): string => {
-        const category = genres.find((genre: Genre) => genre.id === categoryId);
-        return category ? category.name : 'Catégorie inconnue';
-    };
+const MovieComponent = ({ movie }: Props) => {
 
     return (
         <li>
@@ -18,11 +13,12 @@ const MovieComponent = ({ movie, genres }: Prop) => {
             <h3>{movie.original_title}</h3>
             <p>{movie.overview}</p>
             <p>{movie.vote_average}/10 ({movie.vote_count} votes)</p>
-            <ul>
-                {movie.genres_ids.map((genres_id) => (
-                    <li>
-                    </li>
-                ))};
+            <ul>Catégories :
+                <div>{
+                    movie.genres?.map((genre)=> {
+                        return <GenreComponent key={genre.id} genre={genre} />
+                    }) ?? "Ce film ne possède pas de catégorie. Connard."
+                }</div>
             </ul>
         </li>
     );

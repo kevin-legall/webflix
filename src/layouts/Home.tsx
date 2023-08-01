@@ -1,7 +1,6 @@
 import React from 'react';
 import Navbar from "../components/Navbar";
-import FetchMovies, {Movie} from "../components/FetchMovies";
-import {Genre} from "../components/FetchGenres";
+import FetchMovies from "../components/FetchMovies";
 
 const Home = () => {
     return (

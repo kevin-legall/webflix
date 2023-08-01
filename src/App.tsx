@@ -8,7 +8,7 @@ import List from "./layouts/List";
 import Favorites from "./layouts/Favorites";
 
 
-const App = () => {
+const App:React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>

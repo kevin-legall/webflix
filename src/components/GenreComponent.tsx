@@ -8,8 +8,7 @@ interface Props {
 const GenreComponent = ({genre}: Props) => {
     return (
         <li>
-            <p>coucou</p>
-            <p>Id :{genre.id}, nom : {genre.name}</p>
+            <p>{genre.name}</p>
         </li>
     );
 };

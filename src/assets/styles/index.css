@@ -36,4 +36,55 @@ main {
   margin: 0 auto;
 }
 
+nav {
+  background: rgba(19, 19, 19, 0.75);
+  width: 70%;
+  height: 35px;
+  margin: 1.5vh auto;
+  border-radius: 40px;
+  position: sticky;
+  top: 3vh;
+}
+nav ul {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 20%) 10% 10%;
+  align-content: center;
+  justify-content: space-between;
+}
+nav ul li {
+  cursor: pointer;
+  width: 100%;
+  border-radius: 35px;
+  height: 35px;
+  text-align: center;
+  list-style: none;
+}
+nav ul li.li-button {
+  display: flex;
+  justify-content: center;
+}
+nav ul li a {
+  padding: 5px;
+  border-radius: 35px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFF;
+  height: 100%;
+  text-decoration: none;
+}
+nav ul li a.nav-active {
+  background: #FFF;
+  color: #131313;
+}
+nav .search-button {
+  cursor: pointer;
+  color: #FFF;
+  background: transparent;
+  border: none;
+}
+
 /*# sourceMappingURL=index.css.map */

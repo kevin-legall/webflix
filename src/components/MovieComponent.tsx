@@ -4,11 +4,11 @@ import { Genre } from "../models/Genre";
 import GenreComponent from "./GenreComponent";
 
 interface Props {
-    movie: Movie;
-    categoriesById: { [key: number]: Genre };
+    movie: Movie,
+    categoriesById: { [key: number]: Genre },
 }
 
-const MovieComponent: React.FC<Props> = ({ movie, categoriesById }: Props) => {
+const MovieComponent: React.FC<Props> = ({ movie, categoriesById}: Props) => {
     const movieGenres = movie.genre_ids?.map((genreId) => categoriesById[genreId]) ?? [];
 
     return (

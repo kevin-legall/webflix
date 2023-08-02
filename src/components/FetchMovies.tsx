@@ -15,8 +15,8 @@ const FetchMovies: React.FC = () => {
         const fetchData = async () => {
             try {
                 const [moviesResponse, genresResponse] = await Promise.all([
-                    axios.get('https://api.themoviedb.org/3/movie/popular', options),
-                    axios.get('https://api.themoviedb.org/3/genre/movie/list', options),
+                    axios.get('https://api.themoviedb.org/3/movie/popular?language=fr-FR', options),
+                    axios.get('https://api.themoviedb.org/3/genre/movie/list?language=fr-FR', options),
                 ]);
 
                 const genresData = genresResponse.data.genres.reduce((acc: { [key: number]: Genre }, genre: Genre) => {
@@ -48,7 +48,7 @@ const FetchMovies: React.FC = () => {
             <ul>
                 {
                     movies.map((movie: Movie) => (
-                        <MovieComponent key={movie.id} movie={movie} categoriesById={categoriesById} />
+                        <MovieComponent key={movie.id} movie={movie} categoriesById={categoriesById}/>
                     ))
                 }
             </ul>

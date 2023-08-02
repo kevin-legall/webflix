@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import MovieComponent from "./MovieComponent";
-import {Genre} from "./FetchGenres";
 
 export interface Movie {
     id:number;
     original_title:string;
     poster_path:string;
-    genres_ids:number;
+    genres_ids:number[];
     overview:string;
     vote_average:number;
     vote_count:number;
@@ -16,29 +15,44 @@ export interface Movie {
 const FetchMovies = () => {
 
     const [data, setData] = useState([]);
+    const [genres, setGenres] = useState([]);
 
     useEffect(() => {
-        // search bar 'https://api.themoviedb.org/3/search/movie?query=flash'
-        // sort by average 'https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc'
-        axios.get("https://api.themoviedb.org/3/movie/popular", options)
-            .then((response) =>  setData(response.data.results))
-            .catch(err => console.error(err));
-    }, []);
+        const fetchMovies = async () => {
+            // search bar 'https://api.themoviedb.org/3/search/movie?query=flash'
+            // sort by average 'https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc'
+            axios.get("https://api.themoviedb.org/3/movie/popular", options)
+                .then((response) =>  setData(response.data.results))
+                .catch(err => console.error(err));
+        };
 
-    const options = {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZWVjZTA4MDU3ZmVhMjRkNzI1ZGMyMTc1ZWZmOGY4NSIsInN1YiI6IjY0YzM2NmRkNDMyNTBmMDBlODA0NWFlMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fz8Zd74v5UOGKpBtBIdhelLPKM6ntHVrGQNS1yBU1kk'
-        }
-    };
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get("https://api.themoviedb.org/3/genre/movie/list", options);
+                setGenres(response.data.genres); // Stocker les genres dans l'état
+            } catch (error) {
+                console.error('Erreur Fetch : ', error);
+            }
+        };
+
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZWVjZTA4MDU3ZmVhMjRkNzI1ZGMyMTc1ZWZmOGY4NSIsInN1YiI6IjY0YzM2NmRkNDMyNTBmMDBlODA0NWFlMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fz8Zd74v5UOGKpBtBIdhelLPKM6ntHVrGQNS1yBU1kk'
+            }
+        };
+
+        fetchMovies();
+        fetchCategories();
+    }, []);
 
     return (
         <div>
             <ul>
                 {
                     data.map((movie:Movie)=> (
-                        <MovieComponent key={movie.id} movie={movie} />
+                        <MovieComponent key={movie.id} movie={movie} genres={genres}/>
                     ))
                 }
             </ul>

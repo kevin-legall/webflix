@@ -37,66 +37,54 @@ main {
 }
 
 nav {
-  background: rgba(35, 35, 35, 0.84);
-  position: sticky;
-  border-radius: 40px;
-  top: 3vh;
-  width: 80%;
+  background: rgba(19, 19, 19, 0.75);
+  width: 70%;
   height: 35px;
-  margin: 0 auto;
+  margin: 1.5vh auto;
+  border-radius: 40px;
+  position: sticky;
+  top: 3vh;
 }
 nav ul {
   height: 100%;
   display: grid;
-  text-align: center;
-  align-content: center;
-  justify-content: center;
   grid-template-columns: repeat(4, 20%) 10% 10%;
+  align-content: center;
+  justify-content: space-between;
 }
 nav ul li {
   cursor: pointer;
-  border-radius: 40px;
-  height: 37px;
+  width: 100%;
+  border-radius: 35px;
+  height: 35px;
+  text-align: center;
   list-style: none;
+}
+nav ul li.li-button {
   display: flex;
   justify-content: center;
-  text-align: center;
-  align-items: center;
 }
 nav ul li a {
-  width: 100%;
-  margin: 0 auto;
-  font-size: 0.8rem;
-  font-weight: 500;
-  font-family: "Medium", sans-serif;
-  border-radius: 40px;
+  padding: 5px;
+  border-radius: 35px;
+  font-size: 0.9rem;
+  font-weight: 800;
   display: flex;
   justify-content: center;
-  text-align: center;
   align-items: center;
+  color: #FFF;
   height: 100%;
-  color: #b0abab;
   text-decoration: none;
-  transition: 1s background-color ease-in-out;
 }
 nav ul li a.nav-active {
   background: #FFF;
   color: #131313;
 }
-nav ul .search-button {
+nav .search-button {
   cursor: pointer;
-  height: 100%;
-  width: 100%;
+  color: #FFF;
   background: transparent;
   border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #b0abab;
-}
-nav ul .search-button.active {
-  background: #FFF;
-  color: #131313;
 }
 
 /*# sourceMappingURL=index.css.map */

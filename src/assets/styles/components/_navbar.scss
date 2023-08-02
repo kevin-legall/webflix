@@ -1,45 +1,43 @@
 nav {
-  background: rgba(35, 35, 35, 0.84);
-  position: sticky;
-  border-radius: 40px;
-  top: 3vh;
-  width: 80%;
+  background: rgba(19, 19, 19, 0.75);
+  width: 70%;
   height: 35px;
-  margin: 0 auto;
+  margin: 1.5vh auto;
+  border-radius: 40px;
+  position: sticky;
+  top: 3vh;
 
   ul {
     height: 100%;
     display: grid;
-    text-align: center;
-    align-content: center;
-    justify-content: center;
     grid-template-columns: repeat(4, 20%) 10% 10%;
+    align-content: center;
+    justify-content: space-between;
 
     li {
       cursor: pointer;
-      border-radius: 40px;
-      height: 37px;
-      list-style: none;
-      display: flex;
-      justify-content: center;
+      width: 100%;
+      border-radius: 35px;
+      height: 35px;
       text-align: center;
-      align-items: center;
+      list-style: none;
 
-      a {
-        width: 100%;
-        margin: 0 auto;
-        font-size: 0.8rem;
-        font-weight: 500;
-        font-family: $bold-font;
-        border-radius: 40px;
+      &.li-button {
         display: flex;
         justify-content: center;
-        text-align: center;
+      }
+
+      a {
+        padding: 5px;
+        border-radius: 35px;
+        font-size: 0.9rem;
+        font-weight: 800;
+        display: flex;
+        justify-content: center;
         align-items: center;
+        color: $white;
         height: 100%;
-        color: #b0abab;
         text-decoration: none;
-        transition: 1s background-color ease-in-out;
 
         &.nav-active {
           background: $white;
@@ -47,22 +45,12 @@ nav {
         }
       }
     }
+  }
 
-    .search-button {
-      cursor: pointer;
-      height: 100%;
-      width: 100%;
-      background: transparent;
-      border: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #b0abab;
-
-      &.active {
-        background: $white;
-        color: $black;
-      }
-    }
+  .search-button {
+    cursor: pointer;
+    color: $white;
+    background: transparent;
+    border: none;
   }
 }

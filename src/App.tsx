@@ -11,6 +11,7 @@ import Favorites from "./layouts/Favorites";
 const App:React.FC = () => {
     return (
         <BrowserRouter>
+
             <Routes>
                 <Route path={"/"} element={<Home />}></Route>
                 <Route path={"/films"} element={<Movies />}></Route>

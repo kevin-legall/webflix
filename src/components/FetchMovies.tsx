@@ -5,6 +5,10 @@ import { Movie } from "../models/Movie";
 import { Genre } from "../models/Genre";
 import GenreComponent from "./GenreComponent";
 
+interface Props {
+    genres:Genre[]
+}
+
 const FetchMovies: React.FC = () => {
 
     const [movies, setMovies] = useState<Movie[]>([]);

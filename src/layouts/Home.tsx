@@ -5,7 +5,6 @@ import Main from "../components/Main";
 import Footer from "../components/Footer";
 
 const Home = () => {
-    // TODO: faire un composant main qui change le titre en fonction du props
     return (
         <>
             <Navbar />

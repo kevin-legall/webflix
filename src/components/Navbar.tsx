@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {NavLink} from "react-router-dom";
 import GenreComponent from "./GenreComponent";
 import MovieComponent from "./MovieComponent";
+import {Genre} from "../models/Genre";
 
 const Navbar = () => {
 

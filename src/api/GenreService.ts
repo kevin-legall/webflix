@@ -1,8 +1,12 @@
 import axios from 'axios';
+import {useState} from "react";
+import {Genre} from "../models/Genre";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
 const API_TOKEN = process.env.REACT_APP_API_KEY;
+
+const [genres, setGenres] = useState<Genre[]>([]);
 
 export const getAllGenres = async () => {
 
@@ -18,10 +22,10 @@ export const getAllGenres = async () => {
 
     axios.request(options)
         .then(function (response) {
-            console.log(response.data);
+            setGenres(response.data.genres);
         })
         .catch(function (error) {
-            console.error(error);
+            console.error("Erreur Fetch getAllGenres" + error);
         });
 };
 

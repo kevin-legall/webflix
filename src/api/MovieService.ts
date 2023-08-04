@@ -1,10 +1,16 @@
 import axios from 'axios';
+import {useState} from "react";
+import {Movie} from "../models/Movie";
+import {Genre} from "../models/Genre";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
 const API_TOKEN = process.env.REACT_APP_API_KEY;
 
+const [categoriesById, setCategoriesById] = useState<{ [key: number]: Genre }>({});
+
 export const getAllMovies = async () => {
+
 
     const options = {
         method: 'GET',
@@ -18,11 +24,18 @@ export const getAllMovies = async () => {
 
     axios.request(options)
         .then(function (response) {
-            console.log(response.data);
+            setMovies(response.data.results);
         })
         .catch(function (error) {
-            console.error(error);
+            console.error("Erreur Fetch GetAllMovies" + error);
         });
+
+    const genresData = genres.reduce((acc: { [key: number]: Genre }, genre: Genre) => {
+        acc[genre.id] = genre;
+        return acc;
+    }, {});
+
+    setCategoriesById(genresData);
 };
 
 export const getMovieByName = async (query: string) => {
@@ -37,13 +50,12 @@ export const getMovieByName = async (query: string) => {
         }
     };
 
-    axios
-        .request(options)
+    axios.request(options)
         .then(function (response) {
-            console.log(response.data);
+            setMovies(response.data.results);
         })
         .catch(function (error) {
-            console.error(error);
+            console.error("Erreur Fetch getMovieByName" + error);
         });
 };
 

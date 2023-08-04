@@ -7,10 +7,9 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
 const API_TOKEN = process.env.REACT_APP_API_KEY;
 
-const [categoriesById, setCategoriesById] = useState<{ [key: number]: Genre }>({});
-
 export const getAllMovies = async () => {
 
+    const [movies, setMovies] = useState<Movie[]>([]);
 
     const options = {
         method: 'GET',
@@ -29,13 +28,6 @@ export const getAllMovies = async () => {
         .catch(function (error) {
             console.error("Erreur Fetch GetAllMovies" + error);
         });
-
-    const genresData = genres.reduce((acc: { [key: number]: Genre }, genre: Genre) => {
-        acc[genre.id] = genre;
-        return acc;
-    }, {});
-
-    setCategoriesById(genresData);
 };
 
 export const getMovieByName = async (query: string) => {
@@ -52,7 +44,7 @@ export const getMovieByName = async (query: string) => {
 
     axios.request(options)
         .then(function (response) {
-            setMovies(response.data.results);
+            console.log(response.data.results);
         })
         .catch(function (error) {
             console.error("Erreur Fetch getMovieByName" + error);

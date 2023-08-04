@@ -3,6 +3,8 @@ import MovieComponent from "./MovieComponent";
 import { Movie } from "../models/Movie";
 import { Genre } from "../models/Genre";
 import {getAllMovies} from "../api/MovieService";
+import LoadingComponent from "./LoadingComponent";
+import movies from "../layouts/Movies";
 
 interface Props {
     genres:Genre[]
@@ -10,13 +12,14 @@ interface Props {
 
 const FetchMovies: React.FC = () => {
 
-    const [movies, setMovies] = useState<Movie[]>([]);
+
+    const [categoriesById, setCategoriesById] = useState<{ [key: number]: Genre }>({});
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 await getAllMovies().then((data)=> {
-                    setMovies(data)
+                   return ;
                 })
 
 
@@ -30,14 +33,17 @@ const FetchMovies: React.FC = () => {
 
     return (
         <div>
-            {movies.length > 0 ?
-            <ul>
-                {
-                    movies.map((movie: Movie) => (
-                        <MovieComponent key={movie.id} movie={movie} categoriesById={categoriesById}/>
-                    ))
-                }
-            </ul>: }
+            {
+                movies.length > 0 ?
+                    <ul>
+                        {
+                            movies.map((movie: Movie) => (
+                                <MovieComponent key={movie.id} movie={movie} categoriesById={categoriesById}/>
+                            ))
+                        }
+                    </ul>
+                : <LoadingComponent />
+            }
 
         </div>
     );

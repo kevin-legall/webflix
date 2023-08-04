@@ -1,7 +1,7 @@
 import { Genre } from "./Genre";
 
 export class Movie {
-    private _id: number;
+    private readonly _id: number;
     private _original_title: string;
     private _poster_path: string;
     private _genre_ids: number[];

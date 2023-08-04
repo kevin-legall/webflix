@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from "../components/Navbar";
-import FetchMovies from "../components/FetchMovies";
+import Moviesdisplay from "../components/Moviesdisplay";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
 

@@ -10,7 +10,7 @@ export class Movie {
     private _vote_count: number;
     private _genres: Genre[] = [];
 
-    constructor(id: number, original_title: string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number) {
+    constructor(id: number, original_title: string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number, genres:Genre[]) {
         this._id = id;
         this._original_title = original_title;
         this._poster_path = poster_path;
@@ -18,6 +18,7 @@ export class Movie {
         this._overview = overview;
         this._vote_average = vote_average;
         this._vote_count = vote_count;
+        this._genres = genres;
     }
 
 

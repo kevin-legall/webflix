@@ -5,11 +5,9 @@ import GenreComponent from "./GenreComponent";
 
 interface Props {
     movie: Movie,
-    categoriesById: { [key: number]: Genre },
 }
 
-const MovieComponent: React.FC<Props> = ({ movie, categoriesById}: Props) => {
-    const movieGenres = movie.genre_ids?.map((genreId) => categoriesById[genreId]) ?? [];
+const MovieComponent: React.FC<Props> = ({ movie }: Props) => {
 
     return (
         <li>
@@ -19,8 +17,8 @@ const MovieComponent: React.FC<Props> = ({ movie, categoriesById}: Props) => {
             <p>{movie.vote_average}/10 ({movie.vote_count} votes)</p>
             <ul>Catégories :
                 {
-                    movieGenres.length > 0 ? (
-                        movieGenres.map((genre) => (
+                    movie.genres.length > 0 ? (
+                        movie.genres.map((genre) => (
                             <GenreComponent key={genre.id} genre={genre} />
                         ))
                     ) : (

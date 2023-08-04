@@ -1,11 +1,11 @@
 import React from 'react';
-import FetchMovies from "./FetchMovies";
+import Moviesdisplay from "./Moviesdisplay";
 
 const Main = () => {
     return (
         <main>
             <h1>Home</h1>
-            <FetchMovies />
+            <Moviesdisplay />
         </main>
     );
 };

@@ -84,8 +84,8 @@ nav .nav-ul li a.nav-active {
 nav .search-menu {
   opacity: 0;
   background: rgba(19, 19, 19, 0.75);
-  width: 70%;
-  height: 30vh;
+  width: 100%;
+  height: 50vh;
   margin: 1.5vh auto;
   border-radius: 20px;
   position: sticky;
@@ -94,10 +94,11 @@ nav .search-menu {
 nav .search-menu .menu-ul {
   height: 100%;
   display: grid;
-  grid-template-rows: repeat(3, 33%);
+  grid-template-rows: repeat(2, 20%) 60%;
 }
 nav .search-menu .menu-ul .menu-li {
   display: flex;
+  width: 50%;
   margin: 0 auto;
   justify-content: space-between;
   align-items: center;
@@ -111,7 +112,7 @@ nav .search-menu .menu-ul .menu-li .search-bar {
   outline: none;
 }
 nav .search-menu .menu-ul .menu-li.li-radios {
-  height: 70%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -121,7 +122,7 @@ nav .search-menu .menu-ul .menu-li.li-radios .radios-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 50%;
+  height: 100%;
   margin: 0 auto;
   border-radius: 30px;
 }
@@ -138,6 +139,7 @@ nav .search-menu .menu-ul .menu-li input[type=radio]:checked + label:before {
 nav .search-menu .menu-ul .menu-li label {
   border-radius: 30px 0 0 30px;
   width: 100%;
+  height: 100%;
   user-select: none;
   display: flex;
   align-items: center;
@@ -154,6 +156,31 @@ nav .search-menu .menu-ul .menu-li label:nth-of-type(2) {
   border-radius: 0 30px 30px 0;
   border-left: var(--border-width) solid var(--accent);
   border-right: var(--border-width) solid var(--accent);
+}
+nav .search-menu .menu-ul .li-categories {
+  width: 100%;
+}
+nav .search-menu .menu-ul .li-categories .menu-genres {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+nav .search-menu .menu-ul .li-categories .menu-genres .genre-container {
+  margin: 2px 5px;
+  list-style: none;
+}
+nav .search-menu .menu-ul .li-categories .menu-genres .genre-container label {
+  background: #131313;
+  padding: 10px 25px;
+  font-size: 0.9rem;
+  color: #a4a0a0;
+  border-radius: 25px;
+}
+nav .search-menu .menu-ul .li-categories .menu-genres .genre-container input[type=checkbox] {
+  display: none;
 }
 nav .search-menu.open {
   opacity: 1;

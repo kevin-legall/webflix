@@ -1,5 +1,5 @@
 import {motion, Variants} from 'framer-motion';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import GenreComponent from "./GenreComponent";
 import MovieComponent from "./MovieComponent";
@@ -8,6 +8,23 @@ import {Genre} from "../models/Genre";
 const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
     const itemVariants: Variants = {
         open: {
             opacity: 1,
@@ -29,7 +46,10 @@ const Navbar = () => {
                 <li className="li-button"><button onClick={()=> setIsOpen(!isOpen)} className="search-button"><i className="fa-solid fa-magnifying-glass"></i></button></li>
                 <li><NavLink to={'/mes-coups-de-coeur'} className={(nav) => (nav.isActive ? "nav-active" : "")}><i className="fa-regular fa-heart"></i></NavLink></li>
             </ul>
+            {isOpen && (
+
             <motion.div
+                ref={menuRef}
                 initial={false}
                 animate={isOpen ? "open" : "closed"}
                 className={isOpen ? "search-menu open" : "search-menu"}
@@ -80,7 +100,7 @@ const Navbar = () => {
                     <motion.li className="menu-li li-radios" variants={itemVariants}>
                         <p>Trier par notes</p>
                         <div className="radios-container">
-                            <input type="radio" id="sortAsc" name="sort" checked></input>
+                            <input type="radio" id="sortAsc" name="sort"></input>
                             <label htmlFor="sortAsc">asc</label>
 
                             <input type="radio" id="sortDesc" name="sort"></input>
@@ -93,7 +113,7 @@ const Navbar = () => {
                         }
                     </motion.li>
                 </motion.ul>
-            </motion.div>
+            </motion.div> )}
         </nav>
     );
 };

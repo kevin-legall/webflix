@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 import { Movie } from "../models/Movie";
 import { Genre } from "../models/Genre";
 import {getAllGenres} from "./GenreService";
-import {useState} from "react";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
@@ -11,7 +10,7 @@ const API_TOKEN = process.env.REACT_APP_API_KEY;
 /**
  * Fonction pour récupérer tous les films en tendances
  */
-export const getAllMovies = async (): Promise<Movie[]> => {
+export const getPopularMovies = async (): Promise<Movie[]> => {
 
     try {
         const genresData: Genre[] = await getAllGenres();
@@ -19,6 +18,49 @@ export const getAllMovies = async (): Promise<Movie[]> => {
         const options = {
             method: 'GET',
             url: `${BASE_URL}/${API_VERSION}/movie/popular`,
+            params: { language: 'fr-FR', page: '1' },
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${API_TOKEN}`
+            }
+        };
+
+        const response: AxiosResponse<any> = await axios.request(options);
+        const popularMoviesData:Movie[] = response.data.results;
+
+        const popularMovies: Movie[] = popularMoviesData.map((popularMovie: Movie) => {
+            const movieGenres: Genre[] = genresData.filter((genre: Genre) => popularMovie.genre_ids.includes(genre.id));
+            return new Movie(
+                popularMovie.id,
+                popularMovie.original_title,
+                popularMovie.poster_path,
+                popularMovie.genre_ids,
+                popularMovie.overview,
+                popularMovie.vote_average,
+                popularMovie.vote_count,
+                movieGenres
+            );
+        });
+
+        return popularMovies;
+    } catch (error) {
+        console.error("Erreur Fetch getAllMovies", error);
+        throw error;
+    }
+};
+
+
+/**
+ * Fonction pour récupérer tous les films
+ */
+export const getAllMovies = async () => {
+
+    try {
+        const genresData: Genre[] = await getAllGenres();
+
+        const options = {
+            method: 'GET',
+            url: `${BASE_URL}/${API_VERSION}/discover/movie?page=1`,
             params: { language: 'fr' },
             headers: {
                 accept: 'application/json',
@@ -48,30 +90,5 @@ export const getAllMovies = async (): Promise<Movie[]> => {
         console.error("Erreur Fetch getAllMovies", error);
         throw error;
     }
-};
-
-
-/**
- * Fonction pour récupérer tous les films selon ce que l'utilisateur aura mis dans la barre de recherche
- */
-export const getMovieByName = async (query: string) => {
-
-    const options = {
-        method: 'GET',
-        url: `${BASE_URL}/${API_VERSION}/search/movie`,
-        params: {query: `${query}`, language: 'fr-FR'},
-        headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${API_TOKEN}`
-        }
-    };
-
-    axios.request(options)
-        .then(function (response) {
-            console.log(response.data.results);
-        })
-        .catch(function (error) {
-            console.error("Erreur Fetch getMovieByName" + error);
-        });
 };
 

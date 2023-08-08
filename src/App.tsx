@@ -12,19 +12,19 @@ import Footer from "./components/Footer";
 
 const App:React.FC = () => {
 
-    const [query, setQuery] = useState("");
     const [isAsc, setIsAsc] = useState(true);
+    const [searchText, setSearchText] = useState("")
 
-    const handleSearchChange = (newQuery:string, newSort:boolean) => {
-        setQuery(newQuery);
+    const handleSearchChange = (newSort:boolean, searchText:string) => {
         setIsAsc(newSort);
+        setSearchText(searchText);
     };
 
     return (
         <BrowserRouter>
             <Navbar onSearchChange={handleSearchChange} />
             <Routes>
-                <Route path={"/"} element={<Home query={query} isAsc={isAsc}/>}></Route>
+                <Route path={"/"} element={<Home searchText={searchText} isAsc={isAsc}/>}></Route>
                 <Route path={"/films"} element={<Movies />}></Route>
                 <Route path={"/series"} element={<Series />}></Route>
                 <Route path={"/ma-liste"} element={<List />}></Route>

@@ -3,24 +3,21 @@ import React, {useEffect, useRef, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
 import {getAllGenres} from "../api/GenreService";
+import {Movie} from "../models/Movie";
 
-export interface PropsFilters {
-    isAsc: boolean;
-    query:string;
-}
-
-type QueryChangeCallback = (newQuery: string, newSort: boolean) => void;
+type QueryChangeCallback = (newSort: boolean, searchText:string) => void;
 
 interface NavbarProps {
     onSearchChange: QueryChangeCallback;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onSearchChange }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
 
+    const [searchText, setSearchText] = useState<string>('');
     const [genres, setGenres] = useState<Genre[]>([]);
 
-    const handleSearchChange = (newQuery: string, newSort: boolean) => {
-        onSearchChange(newQuery, newSort);
+    const handleSearchChange = (newSort: boolean, searchText:string) => {
+        onSearchChange(newSort, searchText);
     };
 
     useEffect(() => {
@@ -112,15 +109,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange }) => {
                 >
                     <motion.li className="menu-li li-search-bar" variants={itemVariants}>
                         <i className="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" placeholder="Rechercher..." className="search-bar" onChange={(e) => handleSearchChange(e.target.value, true)}/>
+                        <input type="search" placeholder="Rechercher..." className="search-bar" onChange={(e) => {
+                            handleSearchChange(true, e.target.value);
+                            setSearchText(e.target.value);
+                        }} />
                     </motion.li>
                     <motion.li className="menu-li li-radios" variants={itemVariants}>
                         <p>Trier par notes</p>
                         <div className="radios-container">
-                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true} onChange={() => handleSearchChange("", true)}></input>
+                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true} onChange={() => handleSearchChange(true, searchText)}></input>
                             <label htmlFor="sortAsc">Croissant</label>
 
-                            <input type="radio" id="sortDesc" name="sort" onChange={() => handleSearchChange("", false)}></input>
+                            <input type="radio" id="sortDesc" name="sort" onChange={() => handleSearchChange(false, searchText)}></input>
                             <label htmlFor="sortDesc">Décroissant</label>
                         </div>
                     </motion.li>

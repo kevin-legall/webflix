@@ -3,16 +3,16 @@ import Moviesdisplay from "../components/Moviesdisplay";
 
 
 interface HomeProps {
-    query: string,
-    isAsc: boolean
+    isAsc: boolean,
+    searchText:string,
 }
 
-const Home = ({ query, isAsc }: HomeProps) => {
+const Home = ({ isAsc, searchText }: HomeProps) => {
 
     return (
         <main>
             <h1>Home</h1>
-            <Moviesdisplay query={query} isAsc={isAsc}/>
+            <Moviesdisplay isAsc={isAsc} searchText={searchText} />
         </main>
     );
 };

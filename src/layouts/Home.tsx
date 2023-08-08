@@ -1,16 +1,19 @@
-import React from 'react';
-import Navbar from "../components/Navbar";
+import React, {useState} from 'react';
 import Moviesdisplay from "../components/Moviesdisplay";
-import Main from "../components/Main";
-import Footer from "../components/Footer";
 
-const Home = () => {
+
+interface HomeProps {
+    query: string,
+    isAsc: boolean
+}
+
+const Home = ({ query, isAsc }: HomeProps) => {
+
     return (
-        <>
-            <Navbar />
-            <Main />
-            <Footer />
-        </>
+        <main>
+            <h1>Home</h1>
+            <Moviesdisplay query={query} isAsc={isAsc}/>
+        </main>
     );
 };
 

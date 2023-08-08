@@ -3,10 +3,9 @@ import Navbar from "../components/Navbar";
 
 const Movies = () => {
     return (
-        <div>
-            <Navbar />
+        <main>
             <h1>Films</h1>
-        </div>
+        </main>
     );
 };
 

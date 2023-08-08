@@ -4,9 +4,24 @@ import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
 import {getAllGenres} from "../api/GenreService";
 
-const Navbar:React.FC = () => {
+export interface PropsFilters {
+    isAsc: boolean;
+    query:string;
+}
+
+type QueryChangeCallback = (newQuery: string, newSort: boolean) => void;
+
+interface NavbarProps {
+    onSearchChange: QueryChangeCallback;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onSearchChange }) => {
 
     const [genres, setGenres] = useState<Genre[]>([]);
+
+    const handleSearchChange = (newQuery: string, newSort: boolean) => {
+        onSearchChange(newQuery, newSort);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -97,16 +112,16 @@ const Navbar:React.FC = () => {
                 >
                     <motion.li className="menu-li li-search-bar" variants={itemVariants}>
                         <i className="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" placeholder="Rechercher..." className="search-bar"/>
+                        <input type="search" placeholder="Rechercher..." className="search-bar" onChange={(e) => handleSearchChange(e.target.value, true)}/>
                     </motion.li>
                     <motion.li className="menu-li li-radios" variants={itemVariants}>
                         <p>Trier par notes</p>
                         <div className="radios-container">
-                            <input type="radio" id="sortAsc" name="sort" checked></input>
-                            <label htmlFor="sortAsc">asc</label>
+                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true} onChange={() => handleSearchChange("", true)}></input>
+                            <label htmlFor="sortAsc">Croissant</label>
 
-                            <input type="radio" id="sortDesc" name="sort"></input>
-                            <label htmlFor="sortDesc">desc</label>
+                            <input type="radio" id="sortDesc" name="sort" onChange={() => handleSearchChange("", false)}></input>
+                            <label htmlFor="sortDesc">Décroissant</label>
                         </div>
                     </motion.li>
                     <motion.li className="menu-li li-categories" variants={itemVariants}>

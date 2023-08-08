@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import MovieComponent from "./MovieComponent";
 import { Movie } from "../models/Movie";
-import { Genre } from "../models/Genre";
 import { getAllMovies } from "../api/MovieService";
 import LoadingComponent from "./LoadingComponent";
+import HomeProps from "../layouts/Home";
 
-const Moviesdisplay = () => {
+
+
+interface MoviesdisplayProps {
+    query: string,
+    isAsc: boolean
+}
+
+const Moviesdisplay = ({ query, isAsc }: MoviesdisplayProps) => {
 
     const [movies, setMovies] = useState<Movie[]>([]);
 
@@ -26,9 +33,12 @@ const Moviesdisplay = () => {
         <div>
             {movies.length > 0 ? (
                 <ul>
-                    {movies.map((movie: Movie) => (
-                        <MovieComponent key={movie.id} movie={movie} />
-                    ))}
+                    {
+                        movies.sort((a, b) => isAsc ? b.vote_average - a .vote_average : a.vote_average - b.vote_average)
+                            .map((movie: Movie) => (
+                            <MovieComponent key={movie.id} movie={movie} />
+                        ))
+                    }
                 </ul>
             ) : (
                 <LoadingComponent />

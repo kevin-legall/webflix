@@ -3,10 +3,9 @@ import Navbar from "../components/Navbar";
 
 const Favorites = () => {
     return (
-        <div>
-            <Navbar />
+        <main>
             <h1>Mes coups de coeurs</h1>
-        </div>
+        </main>
     );
 };
 

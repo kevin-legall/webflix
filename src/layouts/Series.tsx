@@ -3,10 +3,9 @@ import Navbar from "../components/Navbar";
 
 const Series = () => {
     return (
-        <div>
-            <Navbar />
+        <main>
             <h1>Séries</h1>
-        </div>
+        </main>
     );
 };
 

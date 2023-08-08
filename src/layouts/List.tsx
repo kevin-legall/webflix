@@ -3,10 +3,9 @@ import Navbar from "../components/Navbar";
 
 const List = () => {
     return (
-        <div>
-            <Navbar />
+        <main>
             <h1>Ma liste</h1>
-        </div>
+        </main>
     );
 };
 

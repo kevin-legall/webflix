@@ -5,14 +5,15 @@ import Moviesdisplay from "../components/Moviesdisplay";
 interface HomeProps {
     isAsc: boolean,
     searchText:string,
+    idGenres:number[],
 }
 
-const Home = ({ isAsc, searchText }: HomeProps) => {
+const Home = ({ isAsc, searchText, idGenres }: HomeProps) => {
 
     return (
         <main>
             <h1>Home</h1>
-            <Moviesdisplay isAsc={isAsc} searchText={searchText} />
+            <Moviesdisplay idGenres={idGenres} isAsc={isAsc} searchText={searchText} />
         </main>
     );
 };

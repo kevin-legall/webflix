@@ -5,7 +5,7 @@ import {Genre} from "../models/Genre";
 import {getAllGenres} from "../api/GenreService";
 import {Movie} from "../models/Movie";
 
-type QueryChangeCallback = (newSort: boolean, searchText:string) => void;
+type QueryChangeCallback = (newSort: boolean, searchText:string, idGenres:number[]) => void;
 
 interface NavbarProps {
     onSearchChange: QueryChangeCallback;
@@ -15,9 +15,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
 
     const [searchText, setSearchText] = useState<string>('');
     const [genres, setGenres] = useState<Genre[]>([]);
+    const [idGenres, setIdGenres] = useState<number[]>([])
 
-    const handleSearchChange = (newSort: boolean, searchText:string) => {
-        onSearchChange(newSort, searchText);
+    const handleSearchChange = (newSort: boolean, searchText:string, idGenres:number[]) => {
+        onSearchChange(newSort, searchText, idGenres);
     };
 
     useEffect(() => {
@@ -110,17 +111,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
                     <motion.li className="menu-li li-search-bar" variants={itemVariants}>
                         <i className="fa-solid fa-magnifying-glass"></i>
                         <input type="search" placeholder="Rechercher..." className="search-bar" onChange={(e) => {
-                            handleSearchChange(true, e.target.value);
+                            handleSearchChange(true, e.target.value, idGenres);
                             setSearchText(e.target.value);
                         }} />
                     </motion.li>
                     <motion.li className="menu-li li-radios" variants={itemVariants}>
                         <p>Trier par notes</p>
                         <div className="radios-container">
-                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true} onChange={() => handleSearchChange(true, searchText)}></input>
+                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true} onChange={() => handleSearchChange(true, searchText, idGenres)}></input>
                             <label htmlFor="sortAsc">Croissant</label>
 
-                            <input type="radio" id="sortDesc" name="sort" onChange={() => handleSearchChange(false, searchText)}></input>
+                            <input type="radio" id="sortDesc" name="sort" onChange={() => handleSearchChange(false, searchText, idGenres)}></input>
                             <label htmlFor="sortDesc">Décroissant</label>
                         </div>
                     </motion.li>
@@ -128,7 +129,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
                         <ul className="menu-genres">{
                             genres.map((genre: Genre) => (
                                 <li className="genre-container" key={genre.id}>
-                                    <input type="checkbox" id={"checkbox-" + genre.id}/>
+                                    <input type="checkbox" id={"checkbox-" + genre.id} onChange={()=> idGenres.push(genre.id)} />
                                     <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.name}</label>
                                 </li>
                             ))

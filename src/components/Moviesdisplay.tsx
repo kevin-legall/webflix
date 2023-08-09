@@ -7,9 +7,10 @@ import LoadingComponent from "./LoadingComponent";
 interface MoviesdisplayProps {
     isAsc: boolean,
     searchText:string,
+    idGenres:number[],
 }
 
-const Moviesdisplay = ({ isAsc, searchText }: MoviesdisplayProps) => {
+const Moviesdisplay = ({ isAsc, searchText, idGenres }: MoviesdisplayProps) => {
 
     const [movies, setMovies] = useState<Movie[]>([]);
 
@@ -26,8 +27,12 @@ const Moviesdisplay = ({ isAsc, searchText }: MoviesdisplayProps) => {
         fetchData();
     }, []);
 
-    const filteredMovies = movies.filter((movie) =>
+    const sortedMovies = movies.filter((movie) =>
         movie.original_title.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    const filteredMovies = sortedMovies.filter((movie) =>
+        movie.genre_ids.some(id => idGenres)
     );
 
     return (
@@ -39,7 +44,7 @@ const Moviesdisplay = ({ isAsc, searchText }: MoviesdisplayProps) => {
                             <MovieComponent key={movie.id} movie={movie} />
                         ))
                 ) : (
-                    <LoadingComponent />
+                    <h1>Pas de film trouvé :(</h1>
                 )}
             </ul>
         </div>

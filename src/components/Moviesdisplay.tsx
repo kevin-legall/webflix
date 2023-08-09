@@ -5,30 +5,30 @@ import {getAllMovies, getPopularMovies} from "../api/MovieService";
 import LoadingComponent from "./LoadingComponent";
 
 interface MoviesdisplayProps {
-    isAsc: boolean,
-    searchText:string,
-    idGenres:number[],
+    isAsc?: boolean,
+    searchText?:string,
+    idGenres?:number[],
 }
 
 const Moviesdisplay = ({ isAsc, searchText, idGenres }: MoviesdisplayProps) => {
 
     const [movies, setMovies] = useState<Movie[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchData = async () => {
             try {
-                const moviesData: Movie[] = await getPopularMovies();
-                setMovies(moviesData);
+                setTimeout(async () => {
+                    const moviesData: Movie[] = await getPopularMovies();
+                    setMovies(moviesData);
+                    setLoading(false);
+                }, 1000);
             } catch (error) {
                 console.error('Erreur lors de la récupération des données : ', error);
             }
-        };
-
-        fetchData();
     }, []);
 
     const sortedMovies = movies.filter((movie) =>
-        movie.original_title.toLowerCase().includes(searchText.toLowerCase())
+        movie.original_title.toLowerCase().includes(searchText ? searchText.toLowerCase() : "")
     );
 
     const filteredMovies = sortedMovies.filter((movie) =>
@@ -38,7 +38,9 @@ const Moviesdisplay = ({ isAsc, searchText, idGenres }: MoviesdisplayProps) => {
     return (
         <div>
             <ul>
-                {filteredMovies.length > 0 ? (
+                {loading ? (
+                    <LoadingComponent />
+                ) : filteredMovies.length > 0 ? (
                     filteredMovies.sort((a, b) => (isAsc ? b.vote_average - a.vote_average : a.vote_average - b.vote_average))
                         .map((movie: Movie) => (
                             <MovieComponent key={movie.id} movie={movie} />

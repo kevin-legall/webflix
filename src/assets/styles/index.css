@@ -205,4 +205,14 @@ nav .search-button {
   border: none;
 }
 
+footer {
+  background: #131313;
+  color: #FFF;
+  align-items: center;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
 /*# sourceMappingURL=index.css.map */

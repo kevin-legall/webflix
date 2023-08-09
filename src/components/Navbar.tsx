@@ -5,7 +5,7 @@ import {Genre} from "../models/Genre";
 import {getAllGenres} from "../api/GenreService";
 import {Movie} from "../models/Movie";
 
-type QueryChangeCallback = (newSort: boolean, searchText:string, idGenres:number[]) => void;
+type QueryChangeCallback = (newSort?: boolean, searchText?:string, idGenres?:number[]) => void;
 
 interface NavbarProps {
     onSearchChange: QueryChangeCallback;
@@ -17,7 +17,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
     const [genres, setGenres] = useState<Genre[]>([]);
     const [idGenres, setIdGenres] = useState<number[]>([])
 
-    const handleSearchChange = (newSort: boolean, searchText:string, idGenres:number[]) => {
+    const handleSearchChange = (newSort?: boolean, searchText?:string, idGenres?:number[]) => {
         onSearchChange(newSort, searchText, idGenres);
     };
 
@@ -111,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
                     <motion.li className="menu-li li-search-bar" variants={itemVariants}>
                         <i className="fa-solid fa-magnifying-glass"></i>
                         <input type="search" placeholder="Rechercher..." className="search-bar" onChange={(e) => {
-                            handleSearchChange(true, e.target.value, idGenres);
+                            handleSearchChange(undefined, e.target.value, idGenres);
                             setSearchText(e.target.value);
                         }} />
                     </motion.li>
@@ -129,8 +129,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
                         <ul className="menu-genres">{
                             genres.map((genre: Genre) => (
                                 <li className="genre-container" key={genre.id}>
-                                    <input type="checkbox" id={"checkbox-" + genre.id} onChange={()=> idGenres.push(genre.id)} />
-                                    <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.name}</label>
+                                    <input type="checkbox" id={"checkbox-" + genre.id} onChange={()=> {
+                                        handleSearchChange(undefined, searchText, idGenres)
+                                        idGenres.push(genre.id)}} />
+                                    <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.id + " " + genre.name}</label>
                                 </li>
                             ))
                         }</ul>

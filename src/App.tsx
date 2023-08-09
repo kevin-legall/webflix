@@ -12,11 +12,11 @@ import Footer from "./components/Footer";
 
 const App:React.FC = () => {
 
-    const [isAsc, setIsAsc] = useState<boolean>(true);
-    const [searchText, setSearchText] = useState<string>("")
-    const [idGenres, setIdGenres] = useState<number[]>([])
+    const [isAsc, setIsAsc] = useState<boolean | undefined>(true);
+    const [searchText, setSearchText] = useState<string | undefined>("")
+    const [idGenres, setIdGenres] = useState<number[] | undefined>([])
 
-    const handleSearchChange = (newSort:boolean, searchText:string, idGenres:number[]) => {
+    const handleSearchChange = (newSort?:boolean, searchText?:string, idGenres?:number[]) => {
         setIsAsc(newSort);
         setSearchText(searchText);
     };

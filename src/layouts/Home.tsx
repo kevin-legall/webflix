@@ -3,9 +3,9 @@ import Moviesdisplay from "../components/Moviesdisplay";
 
 
 interface HomeProps {
-    isAsc: boolean,
-    searchText:string,
-    idGenres:number[],
+    isAsc?: boolean,
+    searchText?:string,
+    idGenres?:number[],
 }
 
 const Home = ({ isAsc, searchText, idGenres }: HomeProps) => {

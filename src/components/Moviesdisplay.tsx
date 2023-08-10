@@ -28,7 +28,7 @@ const Moviesdisplay = ({ isAsc, searchText, idGenres }: MoviesdisplayProps) => {
     }, []);
 
     const sortedMovies = movies.filter((movie) =>
-        movie.original_title.toLowerCase().includes(searchText ? searchText.toLowerCase() : "")
+        movie.title.toLowerCase().includes(searchText ? searchText.toLowerCase() : "")
     );
 
     const filteredMovies = sortedMovies.filter((movie) =>
@@ -37,7 +37,7 @@ const Moviesdisplay = ({ isAsc, searchText, idGenres }: MoviesdisplayProps) => {
 
     return (
         <div>
-            <ul>
+            <ul className="movies-ul">
                 {loading ? (
                     <LoadingComponent />
                 ) : filteredMovies.length > 0 ? (

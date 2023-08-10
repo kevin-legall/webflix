@@ -8,7 +8,7 @@ interface Props {
 const GenreComponent = ({genre}: Props) => {
     return (
         <li>
-            <p>{genre.name}</p>
+            {genre.name}
         </li>
     );
 };

@@ -22,6 +22,9 @@ $black: #131313;
 $grey: #a4a0a0;
 $white: #FFF;
 
+$navHeight: 35px;
+$footerHeight: 50px;
+
 // code général //
 ::selection {
   background: $primary-color;
@@ -46,5 +49,12 @@ body {
 
 main {
   width: 90%;
+  // hauteur navbar : 35px + 3vh
+  // hauteur footer : 50px
+  min-height: calc(100vh - $navHeight - $footerHeight - 3vh);
   margin: 0 auto;
+}
+
+li {
+  list-style: none;
 }

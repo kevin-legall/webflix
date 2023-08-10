@@ -32,7 +32,7 @@ export const getPopularMovies = async (): Promise<Movie[]> => {
             const movieGenres: Genre[] = genresData.filter((genre: Genre) => popularMovie.genre_ids.includes(genre.id));
             return new Movie(
                 popularMovie.id,
-                popularMovie.original_title,
+                popularMovie.title,
                 popularMovie.poster_path,
                 popularMovie.genre_ids,
                 popularMovie.overview,
@@ -75,7 +75,7 @@ export const getAllMovies = async () => {
             const movieGenres: Genre[] = genresData.filter((genre: Genre) => movie.genre_ids.includes(genre.id));
             return new Movie(
                 movie.id,
-                movie.original_title,
+                movie.title,
                 movie.poster_path,
                 movie.genre_ids,
                 movie.overview,

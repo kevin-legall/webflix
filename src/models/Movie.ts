@@ -2,7 +2,7 @@ import { Genre } from "./Genre";
 
 export class Movie {
     private readonly _id: number;
-    private _original_title: string;
+    private _title: string;
     private _poster_path: string;
     private _genre_ids: number[];
     private _overview: string;
@@ -12,7 +12,7 @@ export class Movie {
 
     constructor(id: number, original_title: string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number, genres:Genre[]) {
         this._id = id;
-        this._original_title = original_title;
+        this._title = original_title;
         this._poster_path = poster_path;
         this._genre_ids = genre_ids;
         this._overview = overview;
@@ -21,17 +21,16 @@ export class Movie {
         this._genres = genres;
     }
 
-
     get id(): number {
         return this._id;
     }
 
-    get original_title(): string {
-        return this._original_title;
+    get title(): string {
+        return this._title;
     }
 
-    set original_title(value: string) {
-        this._original_title = value;
+    set title(value: string) {
+        this._title = value;
     }
 
     get poster_path(): string {

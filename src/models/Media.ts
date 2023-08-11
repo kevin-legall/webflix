@@ -1,6 +1,6 @@
 import { Genre } from "./Genre";
 
-export class Movie {
+export class Media {
     private readonly _id: number;
     private _title: string;
     private _poster_path: string;

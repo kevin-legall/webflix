@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
 import {getAllGenres} from "../api/GenreService";
-import {Movie} from "../models/Movie";
+import {Media} from "../models/Media";
 
 type QueryChangeCallback = (newSort?: boolean, searchText?:string, idGenres?:number[]) => void;
 

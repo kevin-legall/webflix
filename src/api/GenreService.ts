@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios';
 import {useState} from "react";
 import {Genre} from "../models/Genre";
-import {Movie} from "../models/Movie";
+import {Media} from "../models/Media";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;

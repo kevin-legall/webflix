@@ -1,0 +1,14 @@
+{
+  "favoris": [
+    {
+      "id": 724209,
+      "title": "Kévin Le Gall",
+      "poster_path": "/vB8o2p4ETnrfiWEgVxHmHWP9yRl.jpg",
+      "genre_ids": [
+        53,
+        28
+      ],
+      "vote_average": 10
+    }
+  ]
+}

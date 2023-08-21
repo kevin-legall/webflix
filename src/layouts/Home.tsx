@@ -3,17 +3,10 @@ import Mediasdisplay from "../components/Mediasdisplay";
 import {Media} from "../models/Media";
 import {getPopularMovies} from "../api/MediaService";
 
+const Home = () => {
 
-interface HomeProps {
-    isAsc?: boolean,
-    searchText?: string,
-    idGenres?: number[],
-}
-
-const Home = ({ isAsc, searchText, idGenres }: HomeProps) => {
-
-    const getpopularMovies = async ():Promise<Media[]> => {
-        const [popularMovies, setPopularMovies] = useState<Media[]>([]);
+    const [popularMovies, setPopularMovies] = useState<Media[]>([]);
+    const getpopularMovies = async () => {
 
         try {
             const popularMoviesData: Media[] = await getPopularMovies();
@@ -22,13 +15,14 @@ const Home = ({ isAsc, searchText, idGenres }: HomeProps) => {
             console.error('Erreur lors de la récupération des données : ', error);
         }
 
-        return popularMovies;
     }
+
+    getpopularMovies();
 
     return (
         <main>
             <h1>Home</h1>
-            <Mediasdisplay getContent={getpopularMovies()} idGenres={idGenres} isAsc={isAsc} searchText={searchText} />
+            <Mediasdisplay getContent={popularMovies} />
         </main>
     );
 };

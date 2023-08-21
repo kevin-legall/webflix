@@ -4,17 +4,10 @@ import Mediasdisplay from "../components/Mediasdisplay";
 import {Media} from "../models/Media";
 import {getAllMovies, getPopularMovies} from "../api/MediaService";
 
-interface MediasdisplayProps {
-    isAsc?: boolean,
-    searchText?: string,
-    idGenres?: number[],
-}
+const Movies = () => {
 
-const Movies = ({ isAsc, searchText, idGenres }: MediasdisplayProps) => {
-
+    const [movies, setMovies] = useState<Media[]>([]);
     const allMovies = async ():Promise<Media[]> => {
-        const [movies, setMovies] = useState<Media[]>([]);
-        const [loading, setLoading] = useState(true);
 
         try {
             const moviesData: Media[] = await getAllMovies();
@@ -26,10 +19,12 @@ const Movies = ({ isAsc, searchText, idGenres }: MediasdisplayProps) => {
         return movies;
     }
 
+    allMovies()
+
     return (
         <main>
             <h1>Films</h1>
-            <Mediasdisplay getContent={getAllMovies()} idGenres={idGenres} isAsc={isAsc} searchText={searchText} />
+            <Mediasdisplay getContent={movies} />
         </main>
     );
 };

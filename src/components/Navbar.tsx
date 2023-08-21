@@ -2,29 +2,16 @@ import {motion, Variants} from 'framer-motion';
 import React, {useEffect, useRef, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
-import {getAllGenres} from "../api/GenreService";
-import {Media} from "../models/Media";
+import {getAllMoviesGenres} from "../api/GenreService";
 
-type QueryChangeCallback = (newSort?: boolean, searchText?:string, idGenres?:number[]) => void;
+export const Navbar: React.FC = () => {
 
-interface NavbarProps {
-    onSearchChange: QueryChangeCallback;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
-
-    const [searchText, setSearchText] = useState<string>('');
     const [genres, setGenres] = useState<Genre[]>([]);
-    const [idGenres, setIdGenres] = useState<number[]>([])
-
-    const handleSearchChange = (newSort?: boolean, searchText?:string, idGenres?:number[]) => {
-        onSearchChange(newSort, searchText, idGenres);
-    };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const genresData: Genre[] = await getAllGenres();
+                const genresData: Genre[] = await getAllMoviesGenres();
                 setGenres(genresData);
             } catch (error) {
                 console.error('Erreur lors de la récupération des genres : ', error);
@@ -110,18 +97,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
                 >
                     <motion.li className="menu-li li-search-bar" variants={itemVariants}>
                         <i className="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" placeholder="Rechercher..." className="search-bar" onChange={(e) => {
-                            handleSearchChange(undefined, e.target.value, idGenres);
-                            setSearchText(e.target.value);
-                        }} />
+                        <input type="search" placeholder="Rechercher..." className="search-bar" />
                     </motion.li>
                     <motion.li className="menu-li li-radios" variants={itemVariants}>
                         <p>Trier par notes</p>
                         <div className="radios-container">
-                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true} onChange={() => handleSearchChange(true, searchText, idGenres)}></input>
+                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true}></input>
                             <label htmlFor="sortAsc">Croissant</label>
 
-                            <input type="radio" id="sortDesc" name="sort" onChange={() => handleSearchChange(false, searchText, idGenres)}></input>
+                            <input type="radio" id="sortDesc" name="sort"></input>
                             <label htmlFor="sortDesc">Décroissant</label>
                         </div>
                     </motion.li>
@@ -129,9 +113,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchChange}) => {
                         <ul className="menu-genres">{
                             genres.map((genre: Genre) => (
                                 <li className="genre-container" key={genre.id}>
-                                    <input type="checkbox" id={"checkbox-" + genre.id} onChange={()=> {
-                                        handleSearchChange(undefined, searchText, idGenres)
-                                        idGenres.push(genre.id)}} />
+                                    <input type="checkbox" id={"checkbox-" + genre.id} />
                                     <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.id + " " + genre.name}</label>
                                 </li>
                             ))

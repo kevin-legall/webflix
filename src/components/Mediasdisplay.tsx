@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import MediaComponent from "./MediaComponent";
 import { Media } from "../models/Media";
-import {getAllMovies, getPopularMovies} from "../api/MediaService";
 import LoadingComponent from "./LoadingComponent";
-import HomeProps from "../layouts/Home";
+import {useDispatch, useSelector} from "react-redux";
+import {setSearchQuery} from "../actions/movies.action";
+import {RootState} from "../reducers";
 
-interface MediasdisplayProps {
-    isAsc?: boolean,
-    searchText?: string,
-    idGenres?: number[],
-    getContent:Promise<Media[]>
-}
-
-//TODO : Refacto scss movie -> media
-
-const Mediasdisplay = ({ isAsc, searchText, idGenres, getContent}: MediasdisplayProps) => {
-
+const Mediasdisplay = () => {
     const [loading, setLoading] = useState(true);
+    const [medias, setMedias] = useState<Media[]>([]);
 
-    useEffect(() => {
+    setTimeout(() => {
+        if (medias.length > 0) {
+            setLoading(false);
+        }
+    }, 100);
 
-        setTimeout(async () => {
-            getContent
-        }, 2000);
+    console.log(medias);
 
-    }, []);
+    const dispatch = useDispatch();
+    const searchQuery = useSelector((state:RootState) => state.filter.searchQuery);
 
-    const sortedMedias:Media[] = medias.filter((media:Media) =>
-        media.title.toLowerCase().includes(searchText ? searchText.toLowerCase() : "")
-    );
+    const handleSearchInputChange = (event:ChangeEvent<HTMLInputElement>) => {
+        dispatch(setSearchQuery(event.target.value));
+    };
 
-    const filteredMedias = sortedMedias.filter((media) =>
-        media.genre_ids.some(id => idGenres)
+    medias = medias.filter(media =>
+        media.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
-            <ul className="movies-ul">
-                {loading ? (
-                    <LoadingComponent/>
-                ) : filteredMedias.length > 0 ? (
-                    filteredMedias.sort((a, b) => (isAsc ? b.vote_average - a.vote_average : a.vote_average - b.vote_average))
-                        .map((movie: Media) => (
-                            <MediaComponent key={movie.id}  media={media}/>
-                        ))
-                ) : (
-                    <h1>Aucun film trouvé :(</h1>
-                )}
-            </ul>
+        <ul className="movies-ul">
+            {loading ? (
+                <LoadingComponent />
+            ) : medias.length > 0 ? (
+                medias.sort((a, b) => (b.vote_average - a.vote_average))
+                    .map((media: Media) => (
+                        <MediaComponent key={media.id} media={media} />
+                    ))
+            ) : (
+                <h1>Aucun film trouvé :(</h1>
+            )}
+        </ul>
     );
+
+
+
+
+
 };
 
 export default Mediasdisplay;

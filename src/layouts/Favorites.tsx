@@ -1,18 +1,28 @@
-import React from 'react';
-import Navbar from "../components/Navbar";
+import React, {useEffect, useState} from 'react';
 import Mediasdisplay from "../components/Mediasdisplay";
+import {Media} from "../models/Media";
+import axios from "axios";
+import MediaComponent from "../components/MediaComponent";
 
-interface HomeProps {
-    isAsc?: boolean,
-    searchText?:string,
-    idGenres?:number[],
-}
+const Favorites = () => {
 
-const Favorites = ({ isAsc, searchText, idGenres }: HomeProps) => {
+    const [favData, setFavData] = useState<Media[]>([])
+
+    const getData = () => {
+        axios.get("http://localhost:3001/favoris")
+            .then((res) => setFavData(res.data))
+    }
+
+    useEffect(() => getData(), []);
+
     return (
         <main>
             <h1>Mes coups de coeurs</h1>
-            <Mediasdisplay idGenres={idGenres} isAsc={isAsc} searchText={searchText} />
+            {
+                favData.map((favoris)=> (
+                    <MediaComponent key={favoris.id} media={favoris}/>
+                ))
+            }
         </main>
     );
 };

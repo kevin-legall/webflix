@@ -1,23 +1,24 @@
 import axios, { AxiosResponse } from 'axios';
 import { Media } from "../models/Media";
 import { Genre } from "../models/Genre";
-import {getAllGenres} from "./GenreService";
+import {getAllMoviesGenres, getAllSeriesGenres} from "./GenreService";
+import series from "../layouts/Series";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
 const API_TOKEN = process.env.REACT_APP_API_KEY;
 
 /**
- * Fonction pour récupérer tous les films en tendances
+ * Fonction pour récupérer tous les films et séries
  */
 export const getPopularMovies = async (): Promise<Media[]> => {
 
     try {
-        const genresData: Genre[] = await getAllGenres();
+        const genresData: Genre[] = await getAllMoviesGenres();
 
         const options = {
             method: 'GET',
-            url: `${BASE_URL}/${API_VERSION}/movie/popular`,
+            url: `${BASE_URL}/${API_VERSION}/trending/all/day`,
             params: { language: 'fr-FR', page: '1' },
             headers: {
                 accept: 'application/json',
@@ -28,21 +29,18 @@ export const getPopularMovies = async (): Promise<Media[]> => {
         const response: AxiosResponse<any> = await axios.request(options);
         const popularMoviesData:Media[] = response.data.results;
 
-        const popularMovies: Media[] = popularMoviesData.map((popularMovie: Media) => {
-            const movieGenres: Genre[] = genresData.filter((genre: Genre) => popularMovie.genre_ids.includes(genre.id));
-            return new Media(
-                popularMovie.id,
-                popularMovie.title,
-                popularMovie.poster_path,
-                popularMovie.genre_ids,
-                popularMovie.overview,
-                popularMovie.vote_average,
-                popularMovie.vote_count,
-                movieGenres
-            );
-        });
+        console.log("Données brutes :", popularMoviesData);
+
+        const popularMovies: Media[] = popularMoviesData
+            .filter((popularMovie: Media) => popularMovie.title && popularMovie.title.length > 0)
+            .map((popularMovie: Media) => {
+                const movieGenres: Genre[] = genresData.filter((genre: Genre) => popularMovie.genre_ids.includes(genre.id));
+                return new Media(popularMovie.id, popularMovie.title, popularMovie.poster_path, popularMovie.genre_ids, popularMovie.overview, popularMovie.vote_average, popularMovie.vote_count, movieGenres);
+            });
+        console.log("Médias filtrés et mappés :", popularMovies);
 
         return popularMovies;
+
     } catch (error) {
         console.error("Erreur Fetch getAllMovies", error);
         throw error;
@@ -56,11 +54,11 @@ export const getPopularMovies = async (): Promise<Media[]> => {
 export const getAllMovies = async () => {
 
     try {
-        const genresData: Genre[] = await getAllGenres();
+        const genresData: Genre[] = await getAllMoviesGenres();
 
         const options = {
             method: 'GET',
-            url: `${BASE_URL}/${API_VERSION}/discover/movie?page=1`,
+            url: `${BASE_URL}/${API_VERSION}/trending/movie/day`,
             params: { language: 'fr' },
             headers: {
                 accept: 'application/json',
@@ -71,21 +69,16 @@ export const getAllMovies = async () => {
         const response: AxiosResponse<any> = await axios.request(options);
         const moviesData:Media[] = response.data.results;
 
-        const movies: Media[] = moviesData.map((movie: Media) => {
-            const movieGenres: Genre[] = genresData.filter((genre: Genre) => movie.genre_ids.includes(genre.id));
-            return new Media(
-                movie.id,
-                movie.title,
-                movie.poster_path,
-                movie.genre_ids,
-                movie.overview,
-                movie.vote_average,
-                movie.vote_count,
-                movieGenres
-            );
-        });
+        const movies: Media[] = moviesData
+            .filter((movie: Media) => movie.title && movie.title.length > 0)
+            .map((movie: Media) => {
+                const movieGenres: Genre[] = genresData.filter((genre: Genre) => movie.genre_ids.includes(genre.id));
+                return new Media(movie.id, movie.title, movie.poster_path, movie.genre_ids, movie.overview, movie.vote_average, movie.vote_count, movieGenres);
+            });
+        console.log("Médias filtrés et mappés :", movies);
 
         return movies;
+
     } catch (error) {
         console.error("Erreur Fetch getAllMovies", error);
         throw error;
@@ -95,36 +88,36 @@ export const getAllMovies = async () => {
 export const getAllSeries = async () => {
 
     try {
-        const genresData: Genre[] = await getAllGenres();
+        const genresData: Genre[] = await getAllSeriesGenres();
 
         const options = {
             method: 'GET',
-            url: `${BASE_URL}/${API_VERSION}/discover/tv`,
+            url: `${BASE_URL}/${API_VERSION}/trending/tv/day`,
             params: {language: 'fr-FR', page: '1', sort_by: 'vote_average.asc'},
             headers: {
                 accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZWVjZTA4MDU3ZmVhMjRkNzI1ZGMyMTc1ZWZmOGY4NSIsInN1YiI6IjY0YzM2NmRkNDMyNTBmMDBlODA0NWFlMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fz8Zd74v5UOGKpBtBIdhelLPKM6ntHVrGQNS1yBU1kk'
+                Authorization: `Bearer ${API_TOKEN}`
             }
         };
 
         const response: AxiosResponse<any> = await axios.request(options);
-        const mediasData:Media[] = response.data.results;
+        const seriesData:Media[] = response.data.results;
 
-        const medias: Media[] = mediasData.map((media: Media) => {
-            const mediaGenres: Genre[] = genresData.filter((genre: Genre) => media.genre_ids.includes(genre.id));
+        const series: Media[] = seriesData.map((serie: Media) => {
+            const serieGenres: Genre[] = genresData.filter((genre: Genre) => serie.genre_ids.includes(genre.id));
             return new Media(
-                media.id,
-                media.title,
-                media.poster_path,
-                media.genre_ids,
-                media.overview,
-                media.vote_average,
-                media.vote_count,
-                mediaGenres
+                serie.id,
+                serie.title,
+                serie.poster_path,
+                serie.genre_ids,
+                serie.overview,
+                serie.vote_average,
+                serie.vote_count,
+                serieGenres
             );
         });
 
-        return medias;
+        return series;
     } catch (error) {
         console.error("Erreur Fetch getAllSeries", error);
         throw error;

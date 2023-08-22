@@ -1,10 +1,20 @@
 import {motion, Variants} from 'framer-motion';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
 import {getAllMoviesGenres} from "../api/GenreService";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../reducers";
+import {setSearchQuery} from "../actions/movies.action";
 
 export const Navbar: React.FC = () => {
+
+    const dispatch = useDispatch();
+    const searchQuery = useSelector((state:RootState) => state.name == searchQuery);
+
+    const handleSearchInputChange = (e:ChangeEvent<HTMLInputElement>) => {
+        dispatch(setSearchQuery(e.target.value));
+    };
 
     const [genres, setGenres] = useState<Genre[]>([]);
 
@@ -97,7 +107,7 @@ export const Navbar: React.FC = () => {
                 >
                     <motion.li className="menu-li li-search-bar" variants={itemVariants}>
                         <i className="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" placeholder="Rechercher..." className="search-bar" />
+                        <input type="search" placeholder="Rechercher..." className="search-bar" onChange={(e)=> handleSearchInputChange(e)} />
                     </motion.li>
                     <motion.li className="menu-li li-radios" variants={itemVariants}>
                         <p>Trier par notes</p>

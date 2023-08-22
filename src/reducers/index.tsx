@@ -5,4 +5,4 @@ export const rootReducer = combineReducers({
     movieReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = typeof movieReducer;

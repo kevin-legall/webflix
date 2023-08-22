@@ -9,10 +9,11 @@ import Favorites from "./layouts/Favorites";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import {useSelector} from "react-redux";
+import {RootState} from "./reducers";
 
 const App:React.FC = () => {
 
-    const movies = useSelector((state)=> state.movieReducer);
+    const movies = useSelector((state:RootState)=> state.movieReducer);
 
     return (
         <BrowserRouter>

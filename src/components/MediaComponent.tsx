@@ -12,25 +12,11 @@ const MediaComponent: React.FC<Props> = ({ media }: Props) => {
 
     const [isChecked, setIsChecked] = useState<boolean>(false)
 
-    const handleFavorites = (media:Media)=> {
-        if (isChecked) {
-            axios.post("http://localhost:3000/favoris", {
-                media
-            });
-        } else {
-            if (window.confirm("T'es sur que tu veux supprimer l'article mon reuf ?")) {
-                axios.delete("http://localhost:3000/favoris/" + media.id);
-                window.location.reload();
-            }
-        }
-    }
-
     return (
         <li className="movie" style={{backgroundImage: `url(${'https://image.tmdb.org/t/p/w300/' + media.poster_path})`, backgroundPosition: "cover", backgroundRepeat: "no-repeat"}}>
             <div className="fav-container">
                 <button className="fav-btn" onClick={()=> {
                     setIsChecked(!isChecked)
-                    handleFavorites(media)
                 }}>
                     {
                         isChecked ? (

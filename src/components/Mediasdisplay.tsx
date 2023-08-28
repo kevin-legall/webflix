@@ -8,32 +8,23 @@ import {RootState} from "../reducers";
 import {isEmpty} from "../utils/isEmpty";
 
 export interface MediaDisplayProps {
-    getContent
+    getContent:Media[];
 }
 
 const Mediasdisplay = ({getContent}:MediaDisplayProps) => {
     const [loading, setLoading] = useState(true);
     const [medias, setMedias] = useState<Media[]>([]);
 
-    setTimeout(() => {
-        getContent
-        if (medias.length > 0) {
-            setLoading(false);
-        }
-    }, 100);
+    useEffect(()=> {
+        setTimeout(() => {
+            setMedias(getContent);
+            if (medias.length > 0) {
+                setLoading(false);
+            }
+        }, 100);
+    }, [getContent])
 
     console.log(medias);
-
-    const dispatch = useDispatch();
-    const searchQuery = useSelector((state:RootState) => state.name == searchQuery);
-
-    const handleSearchInputChange = (e:ChangeEvent<HTMLInputElement>) => {
-        dispatch(setSearchQuery(e.target.value));
-    };
-
-    setMedias(medias.filter(media =>
-        media.title.toLowerCase().includes(searchQuery.toLowerCase())
-    ));
 
     return (
         <ul className="movies-ul">

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Navbar from "../components/Navbar";
 import Mediasdisplay from "../components/Mediasdisplay";
 import {Media} from "../models/Media";
-import {getPopularMovies} from "../api/MediaService";
+import {getAllMedias} from "../api/MediaService";
 const List = () => {
 
     return (

@@ -16,9 +16,12 @@ const Mediasdisplay = ({getContent}:MediaDisplayProps) => {
     const [medias, setMedias] = useState<Media[]>([]);
 
     const fetchData = async () => {
-        await setMedias(getContent);
+        setMedias(getContent);
         if (medias.length > 0) {
             setLoading(false);
+        } else {
+            console.log("connard")
+            setLoading(true);
         }
     }
 

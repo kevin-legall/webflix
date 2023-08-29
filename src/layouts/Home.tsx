@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Mediasdisplay from "../components/Mediasdisplay";
 import {Media} from "../models/Media";
-import {getPopularMovies} from "../api/MediaService";
+import {getAllMedias} from "../api/MediaService";
 
 const Home = () => {
 
@@ -9,8 +9,8 @@ const Home = () => {
     const getpopularMovies = async () => {
 
         try {
-            const popularMoviesData: Media[] = await getPopularMovies();
-            setPopularMovies(popularMoviesData);
+            const popularMediasData: Media[] = await getAllMedias();
+            setPopularMovies(popularMediasData);
         } catch (error) {
             console.error('Erreur lors de la récupération des données : ', error);
         }

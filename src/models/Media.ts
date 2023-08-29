@@ -3,6 +3,7 @@ import { Genre } from "./Genre";
 export abstract class Media {
 
     private readonly _id: number;
+    private _media_type:string;
     private _title: string;
     private _poster_path: string;
     private _genre_ids: number[];
@@ -11,8 +12,9 @@ export abstract class Media {
     private _vote_count: number;
     private _genres: Genre[] = [];
 
-    constructor(id: number, title:string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number, genres:Genre[]) {
+    protected constructor(id: number, media_type:string, title:string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number, genres:Genre[]) {
         this._id = id;
+        this._media_type = media_type;
         this._title = title;
         this._poster_path = poster_path;
         this._genre_ids = genre_ids;
@@ -24,6 +26,14 @@ export abstract class Media {
 
     get id(): number {
         return this._id;
+    }
+
+    get media_type(): string {
+        return this._media_type;
+    }
+
+    set media_type(value: string) {
+        this._media_type = value;
     }
 
     get title(): string {

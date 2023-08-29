@@ -3,6 +3,8 @@ import { Media } from "../models/Media";
 import { Genre } from "../models/Genre";
 import GenreComponent from "./GenreComponent";
 import axios from "axios";
+import {Serie} from "../models/Serie";
+import {Movie} from "../models/Movie";
 
 interface Props {
     media: Media,

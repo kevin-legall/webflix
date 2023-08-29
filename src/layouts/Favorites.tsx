@@ -3,6 +3,8 @@ import Mediasdisplay from "../components/Mediasdisplay";
 import {Media} from "../models/Media";
 import axios from "axios";
 import MediaComponent from "../components/MediaComponent";
+import {Movie} from "../models/Movie";
+import {Serie} from "../models/Serie";
 
 const Favorites = () => {
 
@@ -19,7 +21,7 @@ const Favorites = () => {
         <main>
             <h1>Mes coups de coeurs</h1>
             {
-                favData.map((favoris)=> (
+                favData.map((favoris:Movie | Serie)=> (
                     <MediaComponent key={favoris.id} media={favoris}/>
                 ))
             }

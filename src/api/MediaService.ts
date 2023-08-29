@@ -3,6 +3,8 @@ import { Media } from "../models/Media";
 import { Genre } from "../models/Genre";
 import {getAllMoviesGenres, getAllSeriesGenres} from "./GenreService";
 import series from "../layouts/Series";
+import {Movie} from "../models/Movie";
+import {Serie} from "../models/Serie";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
@@ -11,7 +13,7 @@ const API_TOKEN = process.env.REACT_APP_API_KEY;
 /**
  * Fonction pour récupérer tous les films et séries
  */
-export const getPopularMovies = async (): Promise<Media[]> => {
+export const getPopularMovies = async (): Promise<Movie[]> => {
 
     try {
         const genresData: Genre[] = await getAllMoviesGenres();
@@ -27,15 +29,14 @@ export const getPopularMovies = async (): Promise<Media[]> => {
         };
 
         const response: AxiosResponse<any> = await axios.request(options);
-        const popularMoviesData:Media[] = response.data.results;
+        const popularMoviesData:Movie[] = response.data.results;
 
         console.log("Données brutes :", popularMoviesData);
 
-        const popularMovies: Media[] = popularMoviesData
-            .filter((popularMovie: Media) => popularMovie.title && popularMovie.title.length > 0)
-            .map((popularMovie: Media) => {
+        const popularMovies: Movie[] = popularMoviesData.map((popularMovie: Movie) => {
                 const movieGenres: Genre[] = genresData.filter((genre: Genre) => popularMovie.genre_ids.includes(genre.id));
-                return new Media(popularMovie.id, popularMovie.title, popularMovie.poster_path, popularMovie.genre_ids, popularMovie.overview, popularMovie.vote_average, popularMovie.vote_count, movieGenres);
+                return new Movie(
+                    popularMovie.id, popularMovie.title, popularMovie.poster_path, popularMovie.genre_ids, popularMovie.overview, popularMovie.vote_average, popularMovie.vote_count, movieGenres);
             });
         console.log("Médias filtrés et mappés :", popularMovies);
 
@@ -67,13 +68,22 @@ export const getAllMovies = async () => {
         };
 
         const response: AxiosResponse<any> = await axios.request(options);
-        const moviesData:Media[] = response.data.results;
+        const moviesData:Movie[] = response.data.results;
 
-        const movies: Media[] = moviesData
-            .filter((movie: Media) => movie.title && movie.title.length > 0)
-            .map((movie: Media) => {
+        const movies: Movie[] = moviesData
+            .filter((movie: Movie) => movie.title && movie.title.length > 0)
+            .map((movie: Movie) => {
                 const movieGenres: Genre[] = genresData.filter((genre: Genre) => movie.genre_ids.includes(genre.id));
-                return new Media(movie.id, movie.title, movie.poster_path, movie.genre_ids, movie.overview, movie.vote_average, movie.vote_count, movieGenres);
+                return new Movie(
+                    movie.id,
+                    movie.title,
+                    movie.poster_path,
+                    movie.genre_ids,
+                    movie.overview,
+                    movie.vote_average,
+                    movie.vote_count,
+                    movieGenres
+                );
             });
         console.log("Médias filtrés et mappés :", movies);
 
@@ -101,11 +111,11 @@ export const getAllSeries = async () => {
         };
 
         const response: AxiosResponse<any> = await axios.request(options);
-        const seriesData:Media[] = response.data.results;
+        const seriesData:Serie[] = response.data.results;
 
-        const series: Media[] = seriesData.map((serie: Media) => {
+        const series: Serie[] = seriesData.map((serie: Serie) => {
             const serieGenres: Genre[] = genresData.filter((genre: Genre) => serie.genre_ids.includes(genre.id));
-            return new Media(
+            return new Serie(
                 serie.id,
                 serie.title,
                 serie.poster_path,

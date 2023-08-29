@@ -1,4 +1,7 @@
-import {ActionTypes, SET_SEARCH_QUERY} from "../actions/movies.action";
+import {
+    ActionTypes,
+    SET_SEARCH_QUERY
+} from "../actions/movies.action";
 
 const initialState = {};
 

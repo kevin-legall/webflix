@@ -1,8 +1,9 @@
 import { Genre } from "./Genre";
 
-export class Media {
+export abstract class Media {
+
     private readonly _id: number;
-    private _title: string;
+    private _title: string = "";
     private _poster_path: string;
     private _genre_ids: number[];
     private _overview: string;
@@ -10,9 +11,8 @@ export class Media {
     private _vote_count: number;
     private _genres: Genre[] = [];
 
-    constructor(id: number, original_title: string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number, genres:Genre[]) {
+    constructor(id: number, title:string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number, genres:Genre[]) {
         this._id = id;
-        this._title = original_title;
         this._poster_path = poster_path;
         this._genre_ids = genre_ids;
         this._overview = overview;

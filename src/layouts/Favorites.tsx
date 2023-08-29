@@ -21,7 +21,7 @@ const Favorites = () => {
         <main>
             <h1>Mes coups de coeurs</h1>
             {
-                favData.map((favoris:Movie | Serie)=> (
+                favData.map((favoris:Media)=> (
                     <MediaComponent key={favoris.id} media={favoris}/>
                 ))
             }

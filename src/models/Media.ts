@@ -3,7 +3,7 @@ import { Genre } from "./Genre";
 export abstract class Media {
 
     private readonly _id: number;
-    private _title: string = "";
+    private _title: string;
     private _poster_path: string;
     private _genre_ids: number[];
     private _overview: string;
@@ -13,6 +13,7 @@ export abstract class Media {
 
     constructor(id: number, title:string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number, genres:Genre[]) {
         this._id = id;
+        this._title = title;
         this._poster_path = poster_path;
         this._genre_ids = genre_ids;
         this._overview = overview;

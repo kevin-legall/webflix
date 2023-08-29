@@ -1,8 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { Media } from "../models/Media";
 import { Genre } from "../models/Genre";
 import {getAllMoviesGenres, getAllSeriesGenres} from "./GenreService";
-import series from "../layouts/Series";
 import {Movie} from "../models/Movie";
 import {Serie} from "../models/Serie";
 
@@ -95,7 +93,7 @@ export const getAllMovies = async () => {
     }
 };
 
-export const getAllSeries = async () => {
+export const getAllSeries = async ():Promise<Serie[]> => {
 
     try {
         const genresData: Genre[] = await getAllSeriesGenres();
@@ -103,7 +101,7 @@ export const getAllSeries = async () => {
         const options = {
             method: 'GET',
             url: `${BASE_URL}/${API_VERSION}/trending/tv/day`,
-            params: {language: 'fr-FR', page: '1', sort_by: 'vote_average.asc'},
+            params: {language: 'fr-FR'},
             headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${API_TOKEN}`
@@ -117,7 +115,7 @@ export const getAllSeries = async () => {
             const serieGenres: Genre[] = genresData.filter((genre: Genre) => serie.genre_ids.includes(genre.id));
             return new Serie(
                 serie.id,
-                serie.title,
+                serie.original_name,
                 serie.poster_path,
                 serie.genre_ids,
                 serie.overview,

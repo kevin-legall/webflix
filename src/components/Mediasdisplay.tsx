@@ -15,14 +15,16 @@ const Mediasdisplay = ({getContent}:MediaDisplayProps) => {
     const [loading, setLoading] = useState(true);
     const [medias, setMedias] = useState<Media[]>([]);
 
+    const fetchData = async () => {
+        await setMedias(getContent);
+        if (medias.length > 0) {
+            setLoading(false);
+        }
+    }
+
     useEffect(()=> {
-        setTimeout(() => {
-            setMedias(getContent);
-            if (medias.length > 0) {
-                setLoading(false);
-            }
-        }, 100);
-    }, [getContent])
+        fetchData().catch(console.error);
+    }, [fetchData]);
 
     console.log(medias);
 

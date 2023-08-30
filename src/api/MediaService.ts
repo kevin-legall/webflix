@@ -34,36 +34,38 @@ export const getAllMedias = async (): Promise<Media[]> => {
 
         console.log(popularMediasData);
 
+
         // @ts-ignore
-        const allMedias:Media[] = popularMediasData.map((media: Media) => {
+        let allMedias:Media[] = popularMediasData.map((media: Media) => {
                 const mediaGenres: Genre[] = allGenres.filter((genre: Genre) => media.genre_ids.includes(genre.id));
                 if (media.media_type == "movie") {
                     console.log(media);
-                        return new Movie (
-                            media.id,
-                            media.media_type,
-                            media.title,
-                            media.poster_path,
-                            media.genre_ids,
-                            media.overview,
-                            media.vote_average,
-                            media.vote_count,
-                            mediaGenres
-                        ) as Movie;
+                    const movie = media as Movie;
+                    return new Movie (
+                        movie.id,
+                        movie.media_type,
+                        movie.title,
+                        movie.poster_path,
+                        movie.genre_ids,
+                        movie.overview,
+                        movie.vote_average,
+                        movie.vote_count,
+                        mediaGenres
+                    ) as Movie;
                 } else if (media.media_type == "tv") {
                     console.log(media);
                     const serie = media as Serie;
-                        return new Serie (
-                            serie.id,
-                            serie.media_type,
-                            serie.original_name,
-                            serie.poster_path,
-                            serie.genre_ids,
-                            serie.overview,
-                            serie.vote_average,
-                            serie.vote_count,
-                            mediaGenres
-                        );
+                    return new Serie (
+                        serie.id,
+                        serie.media_type,
+                        serie.name,
+                        serie.poster_path,
+                        serie.genre_ids,
+                        serie.overview,
+                        serie.vote_average,
+                        serie.vote_count,
+                        mediaGenres
+                    );
                 }
             });
 
@@ -148,7 +150,7 @@ export const getAllSeries = async ():Promise<Serie[]> => {
             return new Serie(
                 serie.id,
                 serie.media_type,
-                serie.original_name,
+                serie.name,
                 serie.poster_path,
                 serie.genre_ids,
                 serie.overview,

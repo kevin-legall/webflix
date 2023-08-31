@@ -32,28 +32,21 @@ export const getAllMedias = async (): Promise<Media[]> => {
         const response: AxiosResponse<any> = await axios.request(options);
         const popularMediasData:Media[] = response.data.results;
 
-        console.log(popularMediasData);
-
-
-        // @ts-ignore
         let allMedias:Media[] = popularMediasData.map((media: Media) => {
                 const mediaGenres: Genre[] = allGenres.filter((genre: Genre) => media.genre_ids.includes(genre.id));
                 if (media.media_type == "movie") {
-                    console.log(media);
-                    const movie = media as Movie;
                     return new Movie (
-                        movie.id,
-                        movie.media_type,
-                        movie.title,
-                        movie.poster_path,
-                        movie.genre_ids,
-                        movie.overview,
-                        movie.vote_average,
-                        movie.vote_count,
+                        media.id,
+                        media.media_type,
+                        media.title,
+                        media.poster_path,
+                        media.genre_ids,
+                        media.overview,
+                        media.vote_average,
+                        media.vote_count,
                         mediaGenres
-                    ) as Movie;
-                } else if (media.media_type == "tv") {
-                    console.log(media);
+                    ) as Media;
+                } else {
                     const serie = media as Serie;
                     return new Serie (
                         serie.id,
@@ -65,13 +58,11 @@ export const getAllMedias = async (): Promise<Media[]> => {
                         serie.vote_average,
                         serie.vote_count,
                         mediaGenres
-                    );
+                    ) as Media;
                 }
             });
 
-        console.log(allMedias);
-
-        return allMedias as Media[];
+        return allMedias;
 
     } catch (error) {
         console.error("Erreur Fetch getAllMedias", error);

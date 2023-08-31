@@ -1,6 +1,6 @@
 import { Genre } from "./Genre";
 
-export abstract class Media {
+export class Media {
 
     private readonly _id: number;
     private _media_type:string;

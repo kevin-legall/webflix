@@ -2,9 +2,6 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import MediaComponent from "./MediaComponent";
 import { Media } from "../models/Media";
 import LoadingComponent from "./LoadingComponent";
-import {useDispatch, useSelector} from "react-redux";
-import {setSearchQuery} from "../actions/movies.action";
-import {RootState} from "../reducers";
 import {isEmpty} from "../utils/isEmpty";
 
 export interface MediaDisplayProps {
@@ -19,9 +16,6 @@ const Mediasdisplay = ({getContent}:MediaDisplayProps) => {
         setMedias(getContent);
         if (medias.length > 0) {
             setLoading(false);
-        } else {
-            console.log("connard")
-            setLoading(true);
         }
     }
 

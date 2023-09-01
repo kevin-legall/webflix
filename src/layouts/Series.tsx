@@ -22,7 +22,6 @@ const Series = () => {
 
     return (
         <main>
-            <h1>Séries</h1>
             <Mediasdisplay getContent={series} />
         </main>
     );

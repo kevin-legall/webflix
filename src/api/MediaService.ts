@@ -74,22 +74,69 @@ export const getAllMedias = async (): Promise<Media[]> => {
 /**
  * Fonction pour récupérer tous les films
  */
-export const getAllMovies = async () => {
+// export const getAllMovies = async () => {
+//
+//     try {
+//         const genresData: Genre[] = await getAllMoviesGenres();
+//
+//         const options = {
+//             method: 'GET',
+//             url: `${BASE_URL}/${API_VERSION}/trending/movie/day`,
+//             params: { language: 'fr' },
+//             headers: {
+//                 accept: 'application/json',
+//                 Authorization: `Bearer ${API_TOKEN}`
+//             }
+//         };
+//
+//         const response: AxiosResponse<any> = await axios.request(options);
+//         const moviesData:Movie[] = response.data.results;
+//
+//         const movies: Movie[] = moviesData
+//             .filter((movie: Movie) => movie.title && movie.title.length > 0)
+//             .map((movie: Movie) => {
+//                 const movieGenres: Genre[] = genresData.filter((genre: Genre) => movie.genre_ids.includes(genre.id));
+//                 return new Movie(
+//                     movie.id,
+//                     movie.media_type,
+//                     movie.title,
+//                     movie.poster_path,
+//                     movie.genre_ids,
+//                     movie.overview,
+//                     movie.vote_average,
+//                     movie.vote_count,
+//                     movieGenres
+//                 );
+//             });
+//         console.log("Médias filtrés et mappés :", movies);
+//
+//         return movies;
+//
+//     } catch (error) {
+//         console.error("Erreur Fetch getAllMovies", error);
+//         throw error;
+//     }
+// };
+
+/**
+ * Fonction pour récupérer tous les films par nom
+ */
+export const getAllMoviesByName = async (query:string):Promise<Movie[]> => {
 
     try {
         const genresData: Genre[] = await getAllMoviesGenres();
 
         const options = {
             method: 'GET',
-            url: `${BASE_URL}/${API_VERSION}/trending/movie/day`,
-            params: { language: 'fr' },
+            url: `${BASE_URL}/${API_VERSION}/search/movie`,
+            params: {query: `${query}`, language: 'fr-FR'},
             headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${API_TOKEN}`
             }
         };
 
-        const response: AxiosResponse<any> = await axios.request(options);
+        const response: AxiosResponse = await axios.request(options);
         const moviesData:Movie[] = response.data.results;
 
         const movies: Movie[] = moviesData

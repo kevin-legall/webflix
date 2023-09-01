@@ -3,26 +3,36 @@ import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
 import {getAllMoviesGenres} from "../api/GenreService";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../reducers";
-import {setSearchQuery} from "../actions/movies.action";
+import {useDispatch} from "react-redux";
+import {getQuery} from "../features/movie.slice";
+import {useAppDispatch} from "../app/hooks";
 
 export const Navbar: React.FC = () => {
 
     const [genres, setGenres] = useState<Genre[]>([]);
+    const [query, setQuery] = useState("code");
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const genresData: Genre[] = await getAllMoviesGenres();
                 setGenres(genresData);
+                dispatch(getQuery(query));
             } catch (error) {
                 console.error('Erreur lors de la récupération des genres : ', error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [query]);
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>)=> {
+        setQuery(e.target.value);
+        if (query == "") {
+            setQuery("code");
+        }
+    }
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -100,7 +110,10 @@ export const Navbar: React.FC = () => {
                 >
                     <motion.li className="menu-li li-search-bar" variants={itemVariants}>
                         <i className="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" placeholder="Rechercher..." className="search-bar" />
+                        <input type="search" placeholder="Rechercher..." className="search-bar"
+                               onChange={(e) => {
+                                   handleSearch(e);
+                               }}/>
                     </motion.li>
                     <motion.li className="menu-li li-radios" variants={itemVariants}>
                         <p>Trier par notes</p>

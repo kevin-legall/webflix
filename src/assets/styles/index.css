@@ -294,6 +294,7 @@ nav .search-button {
   color: #FFF;
   background: transparent;
   border: none;
+  width: 100%;
 }
 
 footer {

@@ -15,7 +15,7 @@ const MediaComponent: React.FC<Props> = ({ media }: Props) => {
     const [isChecked, setIsChecked] = useState<boolean>(false)
 
     return (
-        <li className="movie" style={{backgroundImage: `url(${'https://image.tmdb.org/t/p/w300/' + media.poster_path})`, backgroundPosition: "cover", backgroundRepeat: "no-repeat"}}>
+        <li className="movie" style={{backgroundImage: `url(${media.poster_path ? 'https://image.tmdb.org/t/p/w300/' + media.poster_path : './images/image_empty.jpg' })`, backgroundPosition: "cover", backgroundRepeat: "no-repeat"}}>
             <div className="fav-container">
                 <button className="fav-btn" onClick={()=> {
                     setIsChecked(!isChecked)

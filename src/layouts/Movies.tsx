@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
-import Navbar from "../components/Navbar";
 import Mediasdisplay from "../components/Mediasdisplay";
-import {Media} from "../models/Media";
-import {getAllMovies} from "../api/MediaService";
+import {getAllMoviesByName} from "../api/MediaService";
+import {Movie} from "../models/Movie";
+import {useAppSelector} from "../app/hooks";
 
 const Movies = () => {
 
-    const [movies, setMovies] = useState<Media[]>([]);
-    const allMovies = async ():Promise<Media[]> => {
+    const [movies, setMovies] = useState<Movie[]>([]);
+    const query = useAppSelector((state) => state.query.value);
+    const allMovies = async ():Promise<Movie[]> => {
 
         try {
-            const moviesData: Media[] = await getAllMovies();
+            const moviesData: Movie[] = await getAllMoviesByName(query);
             setMovies(moviesData);
         } catch (error) {
             console.error('Erreur lors de la récupération des données : ', error);
@@ -19,11 +20,10 @@ const Movies = () => {
         return movies;
     }
 
-    allMovies()
+    allMovies();
 
     return (
         <main>
-            <h1>Films</h1>
             <Mediasdisplay getContent={movies} />
         </main>
     );

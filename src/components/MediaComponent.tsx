@@ -29,14 +29,14 @@ const MediaComponent: React.FC<Props> = ({ media }: Props) => {
             </div>
             <div className="movie-container">
                 <div className="movie-infos">
-                    <h3>{media.title ? media.title : ""}</h3>
-                    <div className="movie-vote"><p>{Math.round(media.vote_average)}/10 </p><i className="fa-solid fa-star" style={{color: "#fbd201"}} ></i></div>
+                    <h3>{media.title}</h3>
+                    <div className="movie-vote"><p>{media.vote_average.toFixed(1)}/10 </p><i className="fa-solid fa-star" style={{color: "#fbd201"}} ></i></div>
                 </div>
                 <ul className="genres-ul">
                     {
                         media.genres.length > 0 ? (
                             media.genres.map((genre) => (
-                                <GenreComponent key={genre.id} genre={genre} />
+                                <GenreComponent key={`${genre.id}-${media.id}`} genre={genre} />
                             ))
                         ) : (
                             <li>Pas de catégorie</li>

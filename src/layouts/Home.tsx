@@ -1,27 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Mediasdisplay from "../components/Mediasdisplay";
 import {Media} from "../models/Media";
-import {getAllMedias} from "../api/MediaService";
+import {getAllMedias, getAllMediasByName} from "../api/MediaService";
+import {useAppSelector} from "../app/hooks";
 
 const Home = () => {
 
-    const [popularMovies, setPopularMovies] = useState<Media[]>([]);
-    const getpopularMovies = async () => {
+    const [popularMedias, setPopularMedias] = useState<Media[]>([]);
+    const query = useAppSelector((state) => state.query.value);
+
+    const getpopularMedias = async () => {
 
         try {
-            const popularMediasData: Media[] = await getAllMedias();
-            setPopularMovies(popularMediasData);
+            const popularMediasData: Media[] = query ? await getAllMediasByName(query) : await getAllMedias();
+            setPopularMedias(popularMediasData);
         } catch (error) {
             console.error('Erreur lors de la récupération des données : ', error);
         }
 
     }
 
-    getpopularMovies();
+    useEffect(()=> {
+        getpopularMedias();
+    }, [query]);
 
     return (
         <main>
-            <Mediasdisplay getContent={popularMovies} />
+            <Mediasdisplay getContent={popularMedias} />
         </main>
     );
 };

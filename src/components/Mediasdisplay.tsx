@@ -3,6 +3,7 @@ import MediaComponent from "./MediaComponent";
 import { Media } from "../models/Media";
 import LoadingComponent from "./LoadingComponent";
 import {isEmpty} from "../utils/isEmpty";
+import {useAppSelector} from "../app/hooks";
 
 export interface MediaDisplayProps {
     getContent:Media[];
@@ -11,6 +12,7 @@ export interface MediaDisplayProps {
 const Mediasdisplay = ({getContent}:MediaDisplayProps) => {
     const [loading, setLoading] = useState(true);
     const [medias, setMedias] = useState<Media[]>([]);
+    const isAsc = useAppSelector((state) => state.vote.value);
 
     const fetchData = async () => {
         setMedias(getContent);
@@ -23,14 +25,12 @@ const Mediasdisplay = ({getContent}:MediaDisplayProps) => {
         fetchData().catch(console.error);
     }, [fetchData]);
 
-    console.log(medias);
-
     return (
         <ul className="movies-ul">
             {loading ? (
                 <LoadingComponent />
             ) : !isEmpty(medias) ? (
-                medias.sort((a, b) => (b.vote_average - a.vote_average))
+                medias.sort((a, b) => (isAsc ? b.vote_average - a.vote_average : a.vote_average - b.vote_average))
                     .map((media: Media) => (
                         <MediaComponent key={media.id} media={media} />
                     ))

@@ -3,14 +3,33 @@ import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
 import {getAllMoviesGenres} from "../api/GenreService";
-import {useDispatch} from "react-redux";
-import {getQuery} from "../features/movie.slice";
+import {getQuery} from "../features/searchFeature/query.slice";
+import {getVote} from "../features/searchFeature/vote.slice";
 import {useAppDispatch} from "../app/hooks";
+import {getGenres} from "../features/searchFeature/genres.slice";
+
+
+let genresIdData:number[] = [];
 
 export const Navbar: React.FC = () => {
 
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const menuUl = document.getElementById("menuUl");
+    const searchButton = document.getElementById("searchButton");
+
+    window.addEventListener('click', (e)=> {
+        const target = e.target as HTMLElement;
+        if ((searchButton && searchButton.contains(target)) || (menuUl && menuUl.contains(target))) {
+            setIsOpen(true);
+        } else {
+            setIsOpen(false);
+        }
+    });
+
+    const [genresId, setGenresId] = useState("")
     const [genres, setGenres] = useState<Genre[]>([]);
-    const [query, setQuery] = useState("code");
+    const [query, setQuery] = useState("");
+    const [isAsc, setIsAsc] = useState(true);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -19,22 +38,16 @@ export const Navbar: React.FC = () => {
                 const genresData: Genre[] = await getAllMoviesGenres();
                 setGenres(genresData);
                 dispatch(getQuery(query));
+                dispatch(getVote(isAsc));
+                dispatch(getGenres(genresId));
             } catch (error) {
                 console.error('Erreur lors de la récupération des genres : ', error);
             }
         };
 
         fetchData();
-    }, [query]);
+    }, [query, isAsc, genresId]);
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>)=> {
-        setQuery(e.target.value);
-        if (query == "") {
-            setQuery("code");
-        }
-    }
-
-    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const itemVariants: Variants = {
         open: {
@@ -57,8 +70,8 @@ export const Navbar: React.FC = () => {
                 <li><NavLink to={'/ma-liste'} className={(nav) => (nav.isActive ? "nav-active" : "")}>Ma liste</NavLink>
                 </li>
                 <li className="li-button">
-                    <button onClick={()=> setIsOpen(!isOpen)} className="search-button"><i
-                        className="fa-solid fa-magnifying-glass"></i></button>
+                    <button id="searchButton" onClick={()=> setIsOpen(true)} className="search-button">
+                        <i id="searchIcon" className="fa-solid fa-magnifying-glass"></i></button>
                 </li>
                 <li><NavLink to={'/mes-coups-de-coeur'} className={(nav) => (nav.isActive ? "nav-active" : "")}><i
                     className="fa-regular fa-heart"></i></NavLink></li>
@@ -86,6 +99,7 @@ export const Navbar: React.FC = () => {
                 </motion.div>
                 <motion.ul
                     className="menu-ul"
+                    id="menuUl"
                     variants={{
                         open: {
                             clipPath: "inset(0% 0% 0% 0% round 10px)",
@@ -112,16 +126,20 @@ export const Navbar: React.FC = () => {
                         <i className="fa-solid fa-magnifying-glass"></i>
                         <input type="search" placeholder="Rechercher..." className="search-bar"
                                onChange={(e) => {
-                                   handleSearch(e);
+                                   setQuery(e.target.value);
                                }}/>
                     </motion.li>
                     <motion.li className="menu-li li-radios" variants={itemVariants}>
                         <p>Trier par notes</p>
                         <div className="radios-container">
-                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true}></input>
+                            <input type="radio" id="sortAsc" name="sort" defaultChecked={true} onChange={(e) => {
+                                setIsAsc(true);
+                            }}></input>
                             <label htmlFor="sortAsc">Croissant</label>
 
-                            <input type="radio" id="sortDesc" name="sort"></input>
+                            <input type="radio" id="sortDesc" name="sort"  onChange={(e) => {
+                                setIsAsc(false);
+                            }}></input>
                             <label htmlFor="sortDesc">Décroissant</label>
                         </div>
                     </motion.li>
@@ -129,8 +147,13 @@ export const Navbar: React.FC = () => {
                         <ul className="menu-genres">{
                             genres.map((genre: Genre) => (
                                 <li className="genre-container" key={genre.id}>
-                                    <input type="checkbox" id={"checkbox-" + genre.id} />
-                                    <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.id + " " + genre.name}</label>
+                                    <input type="checkbox" id={"checkbox-" + genre.id} onChange={()=> {
+                                        genresIdData.includes(genre.id) ? genresIdData.splice(genresIdData.indexOf(genre.id), 1) : genresIdData.push(genre.id);
+                                        console.log(genresIdData);
+                                        setGenresId(genresIdData.join("%2C"));
+                                        console.log(genresId);
+                                    }} />
+                                    <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.id + genre.name}</label>
                                 </li>
                             ))
                         }</ul>

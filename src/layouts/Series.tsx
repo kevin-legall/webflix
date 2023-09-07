@@ -1,24 +1,27 @@
-import React, {useState} from 'react';
-import Navbar from "../components/Navbar";
+import React, {useEffect, useState} from 'react';
 import Mediasdisplay from "../components/Mediasdisplay";
-import {Media} from "../models/Media";
-import {getAllSeries, getAllMedias} from "../api/MediaService";
+import {getAllSeries, getAllSeriesByName} from "../api/MediaService";
+import {useAppSelector} from "../app/hooks";
+import {Serie} from "../models/Serie";
 
 const Series = () => {
 
-    const [series, setSeries] = useState<Media[]>([]);
-    const allSeries = async () => {
+    const [series, setSeries] = useState<Serie[]>([]);
+    const query = useAppSelector((state) => state.query.value);
+    const allSeries = async ():Promise<Serie[]> => {
 
         try {
-            const seriesData: Media[] = await getAllSeries();
+            const seriesData: Serie[] = query ? await getAllSeriesByName(query) : await getAllSeries();
             setSeries(seriesData);
         } catch (error) {
             console.error('Erreur lors de la récupération des données : ', error);
         }
-
+        return series;
     }
 
-    allSeries();
+    useEffect(()=> {
+        allSeries();
+    }, [query]);
 
     return (
         <main>

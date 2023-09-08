@@ -30,7 +30,7 @@ const FavButton = ({media}: FavButtonProps) => {
 
     return (
         <button className="fav-btn" onClick={handleFavorites}>
-            {localStorage.getItem(String(media.id)) === media.id.toString() ? (
+            {localStorage.getItem(String(media.id)) ? (
                 <i className="fa-solid fa-heart" style={{ color: "#ff3d51" }}></i>
             ) : (
                 <i className="fa-regular fa-heart" style={{ color: "#ffffff" }}></i>

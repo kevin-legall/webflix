@@ -1,12 +1,12 @@
 import {motion, Variants} from 'framer-motion';
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
-import {getAllMoviesGenres} from "../api/GenreService";
 import {getQuery} from "../features/searchFeature/query.slice";
 import {getVote} from "../features/searchFeature/vote.slice";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {getGenresId} from "../features/searchFeature/genresId.slice";
+
 let genresIdData:number[] = [];
 
 export const Navbar = () => {
@@ -25,17 +25,14 @@ export const Navbar = () => {
     });
 
     const [genresId, setGenresId] = useState("")
-    const [genres, setGenres] = useState<Genre[]>([]);
     const [query, setQuery] = useState("");
     const [isAsc, setIsAsc] = useState(true);
     const dispatch = useAppDispatch();
+    const genres = useAppSelector((state) => state.genres.value);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const genres = useAppSelector((state) => state.genres.value);
-                const genresData: Genre[] = genres;
-                setGenres(genresData);
                 dispatch(getQuery(query));
                 dispatch(getVote(isAsc));
                 dispatch(getGenresId(genresId));
@@ -45,7 +42,7 @@ export const Navbar = () => {
         };
 
         fetchData();
-    }, [query, isAsc, genresId]);
+    }, [query, isAsc, genresId, genres]);
 
 
     const itemVariants: Variants = {
@@ -150,7 +147,7 @@ export const Navbar = () => {
                                         genresIdData.includes(genre.id) ? genresIdData.splice(genresIdData.indexOf(genre.id), 1) : genresIdData.push(genre.id);
                                         setGenresId(genresIdData.join(","));
                                     }} />
-                                    <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.id + genre.name}</label>
+                                    <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.id == 10759 ? "Action et Aventure" : genre.id == 10762 ? "Enfants" : genre.id == 10766 ? "Feuilleton" : genre.id == 10768 ? "Guerre et Politique" :  genre.id == 10763 ? "Actualités" : genre.id == 10764 ? "Divertissement" : genre.id == 10767 ? "Émission de discussion" : genre.name}</label>
                                 </li>
                             ))
                         }</ul>

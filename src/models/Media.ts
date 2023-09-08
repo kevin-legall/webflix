@@ -12,16 +12,16 @@ export class Media {
     private _vote_count: number;
     private _genres: Genre[] = [];
 
-    protected constructor(id: number, media_type:string, title:string, poster_path: string, genre_ids: number[], overview: string, vote_average: number, vote_count: number, genres:Genre[]) {
-        this._id = id;
-        this._media_type = media_type;
-        this._title = title;
-        this._poster_path = poster_path;
-        this._genre_ids = genre_ids;
-        this._overview = overview;
-        this._vote_average = vote_average;
-        this._vote_count = vote_count;
-        this._genres = genres;
+    constructor(_id: number, _media_type:string, _title:string, _poster_path: string, _genre_ids: number[], _overview: string, _vote_average: number, _vote_count: number, _genres:Genre[]) {
+        this._id = _id;
+        this._media_type = _media_type;
+        this._title = _title;
+        this._poster_path = _poster_path;
+        this._genre_ids = _genre_ids;
+        this._overview = _overview;
+        this._vote_average = _vote_average;
+        this._vote_count = _vote_count;
+        this._genres = _genres;
     }
 
     get id(): number {

@@ -3,7 +3,7 @@ const List = () => {
 
     return (
         <main>
-            <h1>Ma liste</h1>
+            <h1>Soon...</h1>
 
         </main>
     );

@@ -11,6 +11,11 @@
   font-family: "Light";
   src: url(../fonts/Poppins-Light.ttf);
 }
+:export {
+  isChecked: #ff3d51;
+  isNotChecked: #fff;
+}
+
 ::selection {
   background: #E42113;
   color: #FFF;
@@ -130,8 +135,8 @@ li {
 nav {
   background: rgba(19, 19, 19, 0.75);
   z-index: 1000;
-  width: 70%;
-  max-width: 600px;
+  width: 100%;
+  max-width: 680px;
   height: 35px;
   margin: 1.5vh auto;
   border-radius: 40px;

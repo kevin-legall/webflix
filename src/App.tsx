@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import NotFound from "./layouts/NotFound";
 import Home from "./layouts/Home";
 import Movies from "./layouts/Movies";
@@ -8,8 +8,9 @@ import List from "./layouts/List";
 import Favorites from "./layouts/Favorites";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import "./assets/styles/index.scss"
 
-const App:React.FC = () => {
+const App = () => {
 
     return (
         <BrowserRouter>

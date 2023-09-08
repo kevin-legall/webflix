@@ -5,6 +5,7 @@ import GenreComponent from "./GenreComponent";
 import axios from "axios";
 import {Serie} from "../models/Serie";
 import {Movie} from "../models/Movie";
+import FavButton from "./FavButton";
 
 interface Props {
     media: Media,
@@ -12,20 +13,10 @@ interface Props {
 
 const MediaComponent: React.FC<Props> = ({ media }: Props) => {
 
-    const [isChecked, setIsChecked] = useState<boolean>(false)
-
     return (
-        <li className="movie" style={{backgroundImage: `url(${media.poster_path ? 'https://image.tmdb.org/t/p/w300/' + media.poster_path : './images/image_empty.jpg' })`, backgroundPosition: "cover", backgroundRepeat: "no-repeat"}}>
+        <li className="movie" style={{backgroundImage: `url(${media.poster_path ? 'https://image.tmdb.org/t/p/w300/' + media.poster_path : '' })`, backgroundPosition: "cover", backgroundRepeat: "no-repeat"}}>
             <div className="fav-container">
-                <button className="fav-btn" onClick={()=> {
-                    setIsChecked(!isChecked)
-                }}>
-                    {
-                        isChecked ? (
-                            <i className="fa-solid fa-heart" style={{color: "#ff3d51"}}></i>
-                        ) : <i className="fa-regular fa-heart" style={{color: "#ffffff"}}></i>
-                    }
-                </button>
+                <FavButton media={media}/>
             </div>
             <div className="movie-container">
                 <div className="movie-infos">

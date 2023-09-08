@@ -9,6 +9,7 @@ const Home = () => {
     const [popularMedias, setPopularMedias] = useState<Media[]>([]);
     const query = useAppSelector((state) => state.query.value);
 
+
     const getpopularMedias = async () => {
 
         try {

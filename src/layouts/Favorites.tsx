@@ -1,27 +1,33 @@
 import React, {useEffect, useState} from 'react';
 import {Media} from "../models/Media";
-import axios from "axios";
 import MediaComponent from "../components/MediaComponent";
+import Mediasdisplay from "../components/Mediasdisplay";
+import {isEmpty} from "../utils/isEmpty";
+import {getAllFavoris} from "../api/MediaService";
 
 const Favorites = () => {
 
     const [favData, setFavData] = useState<Media[]>([])
-
-    const getData = () => {
-        axios.get("http://localhost:3001/favoris")
-            .then((res) => setFavData(res.data))
+    const getData = async () => {
+        const fav = await getAllFavoris();
+        console.log(fav)
+        return fav;
     }
 
-    useEffect(() => getData(), []);
+    useEffect(() => {
+        getData();
+    }, [favData]);
 
     return (
         <main>
-            <h1>Mes coups de coeurs</h1>
-            {
-                favData.map((favoris:Media)=> (
-                    <MediaComponent key={favoris.id} media={favoris}/>
-                ))
-            }
+            {!isEmpty(favData) ? (
+                <ul>{favData.map((fav)=> (
+                    <li>coucou</li>
+                ))}</ul>
+            ) : (
+            <h1>Tu n'as pas encore de favoris :(</h1>
+            )}
+
         </main>
     );
 };

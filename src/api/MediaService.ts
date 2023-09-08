@@ -381,3 +381,63 @@ export const getAllSeriesByGenres = async (genresId:string):Promise<Serie[]> => 
         throw error;
     }
 };
+
+export const getAllFavoris = async ():Promise<Media[]> => {
+
+    try {
+
+        const allGenres: Genre[] = await getAllGenres();
+
+        const favorisData:Media[] = [];
+        console.log(allGenres)
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key) {
+                console.log(key)
+                const valueStr = localStorage.getItem(key);
+                if (valueStr) {
+                    console.log(valueStr)
+                    const value: Media = JSON.parse(valueStr);
+                    console.log(value)
+                    favorisData.push(value);
+                }
+            }
+        }
+        console.log(favorisData)
+        let favoris:Media[] = favorisData.map((fav: Media) => {
+            const mediaGenres: Genre[] = allGenres;
+            if (fav.media_type == "movie") {
+                return new Movie (
+                    fav.id,
+                    fav.media_type,
+                    fav.title,
+                    fav.poster_path,
+                    fav.genre_ids,
+                    fav.overview,
+                    fav.vote_average,
+                    fav.vote_count,
+                    mediaGenres
+                ) as Media;
+            } else {
+                const serie = fav as Serie;
+                return new Serie (
+                    serie.id,
+                    serie.media_type,
+                    serie.name,
+                    serie.poster_path,
+                    serie.genre_ids,
+                    serie.overview,
+                    serie.vote_average,
+                    serie.vote_count,
+                    mediaGenres
+                ) as Media;
+            }
+        });
+
+        return favoris;
+
+    } catch (error) {
+        console.error("Erreur Fetch getAllFavoris", error);
+        throw error;
+    }
+};

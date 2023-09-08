@@ -25,6 +25,12 @@ $white: #FFF;
 $navHeight: 35px;
 $footerHeight: 50px;
 
+//export vers React
+:export {
+  isChecked: #ff3d51;
+  isNotChecked: #fff;
+}
+
 // code général //
 ::selection {
   background: $primary-color;

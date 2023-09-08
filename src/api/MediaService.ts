@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { Genre } from "../models/Genre";
-import {getAllMoviesGenres, getAllSeriesGenres} from "./GenreService";
+import {getAllGenres, getAllMoviesGenres, getAllSeriesGenres} from "./GenreService";
 import {Movie} from "../models/Movie";
 import {Serie} from "../models/Serie";
 import {Media} from "../models/Media";
@@ -9,15 +9,12 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
 const API_TOKEN = process.env.REACT_APP_API_KEY;
 
-/**
- * Fonction pour récupérer tous les films et séries
- */
+
 export const getAllMedias = async (): Promise<Media[]> => {
 
     try {
-        const genresData: Genre[] = await getAllMoviesGenres();
-        const genresSeriesData: Genre[] = await getAllSeriesGenres();
-        const allGenres: Genre[] = genresData.concat(genresSeriesData);
+
+        const allGenres: Genre[] = await getAllGenres();
 
         const options = {
             method: 'GET',
@@ -130,9 +127,6 @@ export const getAllMediasByName = async (query:string):Promise<Media[]> => {
     }
 };
 
-/**
- * Fonction pour récupérer tous les films
- */
 export const getAllMovies = async ():Promise<Movie[]> => {
 
     try {
@@ -176,9 +170,6 @@ export const getAllMovies = async ():Promise<Movie[]> => {
     }
 };
 
-/**
- * Fonction pour récupérer tous les films par nom
- */
 export const getAllMoviesByName = async (query:string):Promise<Movie[]> => {
 
     try {
@@ -222,7 +213,7 @@ export const getAllMoviesByName = async (query:string):Promise<Movie[]> => {
     }
 };
 
-export const getAllMoviesByGenres = async (genres:string):Promise<Movie[]> => {
+export const getAllMoviesByGenres = async (genresId:string):Promise<Movie[]> => {
 
     try {
         const genresData: Genre[] = await getAllMoviesGenres();
@@ -230,7 +221,7 @@ export const getAllMoviesByGenres = async (genres:string):Promise<Movie[]> => {
         const options = {
             method: 'GET',
             url: `${BASE_URL}/${API_VERSION}/discover/movie`,
-            params: { language: 'fr',  with_genres: `${genres}` },
+            params: { language: 'fr',  with_genres: `${genresId}` },
             headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${API_TOKEN}`
@@ -314,6 +305,49 @@ export const getAllSeriesByName = async (query:string):Promise<Serie[]> => {
             method: 'GET',
             url: `${BASE_URL}/${API_VERSION}/search/tv`,
             params: {query: `${query}`, language: 'fr-FR'},
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${API_TOKEN}`
+            }
+        };
+
+        const response: AxiosResponse = await axios.request(options);
+        const seriesData:Serie[] = response.data.results;
+
+        const series: Serie[] = seriesData
+            .filter((serie: Serie) => serie.name && serie.name.length > 0)
+            .map((serie: Serie) => {
+                const serieGenres: Genre[] = genresData.filter((genre: Genre) => serie.genre_ids.includes(genre.id));
+                return new Serie(
+                    serie.id,
+                    serie.media_type,
+                    serie.name,
+                    serie.poster_path,
+                    serie.genre_ids,
+                    serie.overview,
+                    serie.vote_average,
+                    serie.vote_count,
+                    serieGenres
+                );
+            });
+
+        return series;
+
+    } catch (error) {
+        console.error("Erreur Fetch getAllMovies", error);
+        throw error;
+    }
+};
+
+export const getAllSeriesByGenres = async (genresId:string):Promise<Serie[]> => {
+
+    try {
+        const genresData: Genre[] = await getAllSeriesGenres();
+
+        const options = {
+            method: 'GET',
+            url: `${BASE_URL}/${API_VERSION}/discover/tv`,
+            params: { language: 'fr',  with_genres: `${genresId}` },
             headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${API_TOKEN}`

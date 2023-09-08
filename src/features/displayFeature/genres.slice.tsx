@@ -1,7 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {Genre} from "../../models/Genre";
 
-interface GenresState {value: string}
-const initialState: GenresState = {value: ""}
+interface GenresState {value: Genre[]}
+const initialState: GenresState = {value: []}
 
 export const genresSlice = createSlice({
     name: "genres",

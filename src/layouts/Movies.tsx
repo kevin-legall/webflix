@@ -8,11 +8,11 @@ const Movies = () => {
 
     const [movies, setMovies] = useState<Movie[]>([]);
     const query = useAppSelector((state) => state.query.value);
-    const genresId = useAppSelector((state) => state.genres.value);
+    const genresId = useAppSelector((state) => state.genresId.value);
     const allMovies = async ():Promise<Movie[]> => {
 
         try {
-            const moviesData: Movie[] = query ? await getAllMoviesByName(query) : await getAllMoviesByGenres(genresId);
+            const moviesData: Movie[] = query ? await getAllMoviesByName(query) : genresId ? await getAllMoviesByGenres(genresId) : await getAllMovies();
             setMovies(moviesData);
         } catch (error) {
             console.error('Erreur lors de la récupération des données : ', error);
@@ -22,7 +22,7 @@ const Movies = () => {
 
     useEffect(()=> {
         allMovies();
-    }, [query]);
+    }, [query, genresId]);
 
 
     return (

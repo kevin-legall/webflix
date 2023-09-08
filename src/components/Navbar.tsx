@@ -5,13 +5,11 @@ import {Genre} from "../models/Genre";
 import {getAllMoviesGenres} from "../api/GenreService";
 import {getQuery} from "../features/searchFeature/query.slice";
 import {getVote} from "../features/searchFeature/vote.slice";
-import {useAppDispatch} from "../app/hooks";
-import {getGenres} from "../features/searchFeature/genres.slice";
-
-
+import {useAppDispatch, useAppSelector} from "../app/hooks";
+import {getGenresId} from "../features/searchFeature/genresId.slice";
 let genresIdData:number[] = [];
 
-export const Navbar: React.FC = () => {
+export const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const menuUl = document.getElementById("menuUl");
@@ -35,11 +33,12 @@ export const Navbar: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const genresData: Genre[] = await getAllMoviesGenres();
+                const genres = useAppSelector((state) => state.genres.value);
+                const genresData: Genre[] = genres;
                 setGenres(genresData);
                 dispatch(getQuery(query));
                 dispatch(getVote(isAsc));
-                dispatch(getGenres(genresId));
+                dispatch(getGenresId(genresId));
             } catch (error) {
                 console.error('Erreur lors de la récupération des genres : ', error);
             }
@@ -149,9 +148,7 @@ export const Navbar: React.FC = () => {
                                 <li className="genre-container" key={genre.id}>
                                     <input type="checkbox" id={"checkbox-" + genre.id} onChange={()=> {
                                         genresIdData.includes(genre.id) ? genresIdData.splice(genresIdData.indexOf(genre.id), 1) : genresIdData.push(genre.id);
-                                        console.log(genresIdData);
-                                        setGenresId(genresIdData.join("%2C"));
-                                        console.log(genresId);
+                                        setGenresId(genresIdData.join(","));
                                     }} />
                                     <label className="menu-genre" htmlFor={"checkbox-" + genre.id}>{genre.id + genre.name}</label>
                                 </li>

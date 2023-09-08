@@ -1,12 +1,17 @@
 import axios, {AxiosResponse} from 'axios';
 import {Genre} from "../models/Genre";
+import {useAppDispatch} from "../app/hooks";
+import {getQuery} from "../features/searchFeature/query.slice";
+import {getGenres} from "../features/displayFeature/genres.slice";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
 const API_TOKEN = process.env.REACT_APP_API_KEY;
 
 
-export const getAllMoviesGenres = async (): Promise<Genre[]> => {
+
+export const getAllMoviesGenres = async () => {
+    const dispatch = useAppDispatch();
 
     try {
         const options = {
@@ -19,9 +24,10 @@ export const getAllMoviesGenres = async (): Promise<Genre[]> => {
             }
         };
 
-        const response:AxiosResponse<any> = await axios.request(options);
+        const response:AxiosResponse = await axios.request(options);
         const genresData: Genre[] = response.data.genres;
 
+        dispatch(getGenres(genresData));
         return genresData;
     } catch (error) {
         console.error("Erreur Fetch getAllGenres", error);
@@ -52,3 +58,16 @@ export const getAllSeriesGenres = async (): Promise<Genre[]> => {
     }
 };
 
+export const getAllGenres = async (): Promise<Genre[]> => {
+
+    try {
+        const genresData: Genre[] = await getAllMoviesGenres();
+        const genresSeriesData: Genre[] = await getAllSeriesGenres();
+        const allGenres: Genre[] = genresData.concat(genresSeriesData);
+
+        return allGenres;
+    } catch (error) {
+        console.error("Erreur Fetch getAllGenres", error);
+        throw error;
+    }
+};

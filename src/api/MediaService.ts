@@ -4,6 +4,7 @@ import {getAllGenres, getAllMoviesGenres, getAllSeriesGenres} from "./GenreServi
 import {Movie} from "../models/Movie";
 import {Serie} from "../models/Serie";
 import {Media} from "../models/Media";
+import {useState} from "react";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
@@ -388,23 +389,10 @@ export const getAllFavoris = async ():Promise<Media[]> => {
 
         const allGenres: Genre[] = await getAllGenres();
 
-        const favorisData:Media[] = [];
-        console.log(allGenres)
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key) {
-                console.log(key)
-                const valueStr = localStorage.getItem(key);
-                if (valueStr) {
-                    console.log(valueStr)
-                    const value: Media = JSON.parse(valueStr);
-                    console.log(value)
-                    favorisData.push(value);
-                }
-            }
-        }
-        console.log(favorisData)
-        let favoris:Media[] = favorisData.map((fav: Media) => {
+        const response: AxiosResponse = await axios.get('http://localhost:8000/api/media');
+        const favData = response.data['hydra:member'];
+
+        let favoris:Media[] = favData.map((fav: Media) => {
             const mediaGenres: Genre[] = allGenres;
             if (fav.media_type == "movie") {
                 return new Movie (

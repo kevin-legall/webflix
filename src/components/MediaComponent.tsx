@@ -1,10 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Media } from "../models/Media";
-import { Genre } from "../models/Genre";
 import GenreComponent from "./GenreComponent";
-import axios from "axios";
-import {Serie} from "../models/Serie";
-import {Movie} from "../models/Movie";
 import FavButton from "./FavButton";
 
 interface Props {
@@ -25,13 +21,14 @@ const MediaComponent: React.FC<Props> = ({ media }: Props) => {
                 </div>
                 <ul className="genres-ul">
                     {
-                        media.genres.length > 0 ? (
+                        media.genres ? (
+                            media.genres.length > 0 ? (
                             media.genres.map((genre) => (
                                 <GenreComponent key={`${genre.id}-${media.id}`} genre={genre} />
                             ))
                         ) : (
                             <li>Pas de catégorie</li>
-                        )
+                        )) : "salope"
                     }
                 </ul>
             </div>

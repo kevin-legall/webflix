@@ -31,7 +31,7 @@ export const Navbar = () => {
     const genres = useAppSelector((state) => state.genres.value);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const dispatchData = async () => {
             try {
                 dispatch(getQuery(query));
                 dispatch(getVote(isAsc));
@@ -41,7 +41,7 @@ export const Navbar = () => {
             }
         };
 
-        fetchData();
+        dispatchData();
     }, [query, isAsc, genresId, genres]);
 
 

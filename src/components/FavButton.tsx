@@ -3,7 +3,7 @@ import {Media} from "../models/Media";
 import axios from "axios";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {addFavorite, removeFavorite} from "../features/favoritesFeature/favorites.slice";
-// import colors from "../assets/styles/_settings.scss"
+import colors from '@variables/_settings.scss';
 //TODO : installer Webpack pour faire marcher les allias de chemin de fichier
 
 interface FavButtonProps {
@@ -11,6 +11,7 @@ interface FavButtonProps {
 }
 
 const FavButton = ({media}: FavButtonProps) => {
+    console.log(colors.isFavorite);
     const [isFavorite, setIsFavorite] = useState<boolean>(false)
     const dispatch = useAppDispatch();
     const [color, setColor] = useState();
@@ -35,13 +36,13 @@ const FavButton = ({media}: FavButtonProps) => {
         try {
             if (isFavorite) {
                 console.log(data);
-                await axios.delete(`http://localhost:8000/api/media/${media.id}`);
                 setIsFavorite(false);
+                await axios.delete(`http://localhost:8000/api/media/${media.id}`);
                 dispatch(removeFavorite(data));
             } else {
                 console.log(data);
-                await axios.post('http://localhost:8000/api/media', data);
                 setIsFavorite(true);
+                await axios.post('http://localhost:8000/api/media', data);
                 dispatch(addFavorite(data));
             }
         } catch (error) {

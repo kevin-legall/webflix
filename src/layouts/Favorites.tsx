@@ -24,11 +24,11 @@ const Favorites = () => {
     return (
         <main>
             {
-                <ul>{favData && favData.length > 0 ? (
+                <ul className="movies-ul">{favData && favData.length > 0 ? (
                         favData.map((favoris)=> (
                             <Mediasdisplay key={favoris.id} getContent={favData} />
                         ))) : (
-                        <h1>pas de favoris mec</h1>
+                        <h1>Tu n'as pas encore de favoris (ajoutes-en)</h1>
                     )
                     }
                 </ul>

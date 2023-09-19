@@ -28,7 +28,7 @@ const MediaComponent: React.FC<Props> = ({ media }: Props) => {
                             ))
                         ) : (
                             <li>Pas de catégorie</li>
-                        )) : "salope"
+                        )) : "connard"
                     }
                 </ul>
             </div>

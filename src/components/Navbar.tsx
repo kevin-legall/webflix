@@ -1,5 +1,5 @@
 import {motion, Variants} from 'framer-motion';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import {Genre} from "../models/Genre";
 import {getQuery} from "../features/searchFeature/query.slice";
@@ -12,6 +12,11 @@ let genresIdData:number[] = [];
 export const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [genresId, setGenresId] = useState("")
+    const [query, setQuery] = useState("");
+    const [isAsc, setIsAsc] = useState(true);
+    const dispatch = useAppDispatch();
+    const genres = useAppSelector((state) => state.genres.value);
     const menuUl = document.getElementById("menuUl");
     const searchButton = document.getElementById("searchButton");
 
@@ -23,12 +28,6 @@ export const Navbar = () => {
             setIsOpen(false);
         }
     });
-
-    const [genresId, setGenresId] = useState("")
-    const [query, setQuery] = useState("");
-    const [isAsc, setIsAsc] = useState(true);
-    const dispatch = useAppDispatch();
-    const genres = useAppSelector((state) => state.genres.value);
 
     useEffect(() => {
         const dispatchData = async () => {
@@ -42,7 +41,7 @@ export const Navbar = () => {
         };
 
         dispatchData();
-    }, [query, isAsc, genresId, genres]);
+    }, [isOpen, query, isAsc, genresId, genres]);
 
 
     const itemVariants: Variants = {
@@ -120,7 +119,7 @@ export const Navbar = () => {
                 >
                     <motion.li className="menu-li li-search-bar" variants={itemVariants}>
                         <i className="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" placeholder="Rechercher..." className="search-bar"
+                        <input type="search" onFocus={e => e.currentTarget.select()} placeholder="Rechercher..." className="search-bar"
                                onChange={(e) => {
                                    setQuery(e.target.value);
                                }}/>

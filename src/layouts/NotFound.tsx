@@ -3,7 +3,9 @@ import React from 'react';
 const NotFound = () => {
     return (
         <main>
-            <h1>404 mec</h1>
+            <ul className="movies-ul">
+                <h1>404 mec</h1>
+            </ul>
         </main>
     );
 };

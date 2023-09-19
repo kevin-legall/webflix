@@ -3,19 +3,14 @@ import {Media} from "../models/Media";
 import axios from "axios";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {addFavorite, removeFavorite} from "../features/favoritesFeature/favorites.slice";
-import colors from '@variables/_settings.scss';
-//TODO : installer Webpack pour faire marcher les allias de chemin de fichier
 
 interface FavButtonProps {
     media:Media
 }
 
 const FavButton = ({media}: FavButtonProps) => {
-    console.log(colors.isFavorite);
     const [isFavorite, setIsFavorite] = useState<boolean>(false)
     const dispatch = useAppDispatch();
-    const [color, setColor] = useState();
-    const favorites = useAppSelector((state) => state.favorites.value);
 
     useEffect(()=> {
 

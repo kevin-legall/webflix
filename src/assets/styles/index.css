@@ -135,6 +135,14 @@ li {
   padding: 50px;
 }
 
+.container-404 {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.container-404 .image-404 {
+  background: url("") center/cover;
+}
+
 nav {
   background: rgba(19, 19, 19, 0.75);
   z-index: 1000;

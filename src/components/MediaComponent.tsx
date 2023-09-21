@@ -21,14 +21,13 @@ const MediaComponent: React.FC<Props> = ({ media }: Props) => {
                 </div>
                 <ul className="genres-ul">
                     {
-                        media.genres ? (
-                            media.genres.length > 0 ? (
-                            media.genres.map((genre) => (
-                                <GenreComponent key={`${genre.id}-${media.id}`} genre={genre} />
-                            ))
+                        media.genres.length > 0 ? (
+                        media.genres.map((genre) => (
+                            <GenreComponent key={`${genre.id}-${media.id}`} genre={genre} />
+                        ))
                         ) : (
                             <li>Pas de catégorie</li>
-                        )) : "connard"
+                        )
                     }
                 </ul>
             </div>

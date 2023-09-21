@@ -4,7 +4,6 @@ import {getAllGenres, getAllMoviesGenres, getAllSeriesGenres} from "./GenreServi
 import {Movie} from "../models/Movie";
 import {Serie} from "../models/Serie";
 import {Media} from "../models/Media";
-import {useState} from "react";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
@@ -166,7 +165,7 @@ export const getAllMovies = async ():Promise<Movie[]> => {
         return movies;
 
     } catch (error) {
-        console.error("Erreur Fetch getAllMovies", error);
+        console.error("Erreur getAllMovies", error);
         throw error;
     }
 };
